@@ -38,7 +38,7 @@ You're always in control.
 
 ### 🤖 **Real assistance, not just answers**
 SAM helps you finish things.  
-Whether it's organizing files, writing emails, creating images, or researching a topic - SAM acts on your ideas.
+Whether it's organizing files, helping you draft documents, creating images, or researching a topic - SAM acts on your ideas.
 
 ### 🧠 **Smart memory**
 SAM remembers what matters across conversations.  
