@@ -88,7 +88,7 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 - Brainstorm ideas and organize your thoughts
 - Translate text between languages
 
-### ��️ **For organization & productivity**
+### 🗂️ **For organization & productivity**
 - Manage files and folders with voice commands
 - Create project plans and task lists
 - Schedule reminders and calendar events
