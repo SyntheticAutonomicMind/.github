@@ -14,15 +14,21 @@ Built for you.
 - **📚 Documentation:** [User Guides & Tutorials](https://www.syntheticautonomicmind.org)
 - **🐙 Source Code:** [GitHub Repository](https://github.com/SyntheticAutonomicMind/SAM)
 - **🐛 Report Issues:** [Issue Tracker](https://github.com/SyntheticAutonomicMind/SAM/issues)
+- **💖 Support SAM:** [Patreon](https://www.patreon.com/fewtarius)
+
+> **💙 Support This Project**  
+> Your support funds the essential software licenses, developer accounts, and infrastructure needed to build and distribute my work professionally. Let's create the next generation of transparent, user-first software together.  
+> [Become a Patron](https://www.patreon.com/fewtarius)
+
+---
+
+**A friendly note:** SAM is a new project, born from a personal wish to make technology more human. You might find the occasional rough edge - your feedback helps shape SAM into the assistant we all want. Together, we're building something special.
 
 ---
 
 ## Meet SAM - your intelligent, hands‑free assistant
 
 In July 2025, I set out to build the AI assistant my wife actually wanted: one that adapted to *her* workflow instead of forcing her to adapt. SAM was made for her - and dedicated to her. It has since grown into a native macOS assistant that anyone can use to get real work done.
-
-An AI assistant that actually gets work done.  
-SAM reads your documents, generates images, runs commands, and completes complex projects - instead of just talking about them.
 
 A native macOS app designed for **non‑developers** who want powerful tools in their everyday life.  
 Review documents, create images, write content, plan projects, or just have a conversation.  
@@ -82,7 +88,7 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 - Brainstorm ideas and organize your thoughts
 - Translate text between languages
 
-### 🗂️ **For organization & productivity**
+### ��️ **For organization & productivity**
 - Manage files and folders with voice commands
 - Create project plans and task lists
 - Schedule reminders and calendar events
@@ -107,12 +113,6 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 - **Personality system**: Choose from friendly, professional, creative, or custom tones
 - **Dark/light mode**: Beautiful SwiftUI interface that fits your style
 - **100% free & open source**: No subscriptions, no ads, no hidden costs
-
----
-
-**A friendly note:** SAM is a new project, born from a personal wish to make technology more human.  
-You might find the occasional rough edge - your feedback helps shape SAM into the assistant we all want.  
-Together, we're building something special.
 
 ---
 
