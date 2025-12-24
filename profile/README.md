@@ -22,7 +22,7 @@ Built for you.
 
 ---
 
-**A friendly note:** SAM is a new project, born from a personal wish to make technology more human. You might find the occasional rough edge - your feedback helps shape SAM into the assistant we all want. Together, we're building something special.
+**A friendly note:** SAM is a new project, you might find the occasional rough edge - your feedback helps shape SAM into the assistant we all want. Together, we're building something special.
 
 ---
 
