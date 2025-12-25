@@ -91,7 +91,7 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 ### 🗂️ **For organization & productivity**
 - Manage files and folders with voice commands
 - Create project plans and task lists
-- Schedule reminders and calendar events
+- Organize your work in project folders
 - Automate repetitive computer tasks
 
 ### 💡 **For learning & curiosity**
@@ -104,10 +104,10 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 
 ## Features at a glance
 
-- **Multi‑AI support**: Choose from OpenAI, Anthropic, Google, DeepSeek, or run models locally (MLX, GGUF)
+- **Multi‑AI support**: Choose from OpenAI, Anthropic (Claude), GitHub Copilot, DeepSeek, or run models locally (MLX, llama.cpp)
 - **Voice in & out**: "Hey SAM" wake word, speech recognition, and natural text‑to‑speech
 - **Local image generation**: Create images with Stable Diffusion - no internet needed
-- **Document intelligence**: Upload and chat with PDFs, Word docs, text files, and more
+- **Document intelligence**: Upload and chat with PDFs, Word docs, Excel files, text files, and more
 - **Semantic memory**: Find past conversations and documents by meaning, not just keywords
 - **Project workspaces**: Keep everything organized in `~/SAM/{project‑name}/` folders
 - **Personality system**: Choose from friendly, professional, creative, or custom tones
