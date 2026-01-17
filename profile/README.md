@@ -58,6 +58,14 @@ Ask questions, give commands, or have a conversation - all without touching the 
 Generate beautiful images locally with Stable Diffusion.  
 No subscriptions, no cloud uploads - just your imagination and SAM's creativity.
 
+### 🎓 **Train models on your own knowledge**
+Teach SAM about your specific domain with custom training.  
+Create specialized AI models trained on your documents, conversations, or expertise - perfect for professional workflows.
+
+### 📱 **Access from anywhere**
+Use SAM from your iPad, iPhone, or any device with a browser.  
+SAM-Web lets you chat with SAM remotely when you're away from your Mac.
+
 ### 🔐 **Privacy you can trust**
 All your conversations, documents, and memories stay on your Mac.  
 SAM works with local AI models by default, and only uses cloud AI when you choose to.
@@ -93,6 +101,13 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 - Create project plans and task lists
 - Organize your work in project folders
 - Automate repetitive computer tasks
+- Access SAM remotely from your iPad or phone
+
+### 🎓 **For custom AI models**
+- Train models on your own documents and conversations
+- Create specialized assistants for your work domain
+- Fine-tune AI to understand your industry jargon
+- Build knowledge bases from your expertise
 
 ### 💡 **For learning & curiosity**
 - Ask questions about any topic
@@ -107,6 +122,8 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 - **Multi‑AI support**: Choose from OpenAI, Anthropic (Claude), GitHub Copilot, DeepSeek, or run models locally (MLX, llama.cpp)
 - **Voice in & out**: "Hey SAM" wake word, speech recognition, and natural text‑to‑speech
 - **Local image generation**: Create images with Stable Diffusion - no internet needed
+- **Train custom models**: Fine-tune AI on your own data with LoRA training
+- **Remote access**: Chat with SAM from iPad, iPhone, or browser via SAM-Web
 - **Document intelligence**: Upload and chat with PDFs, Word docs, Excel files, text files, and more
 - **Semantic memory**: Find past conversations and documents by meaning, not just keywords
 - **Project workspaces**: Keep everything organized in `~/SAM/{project‑name}/` folders
@@ -128,6 +145,7 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 ## Repositories
 
 - [SAM](https://github.com/SyntheticAutonomicMind/SAM) - Main application
+- [SAM-Web](https://github.com/SyntheticAutonomicMind/SAM-web) - Web interface for remote access
 - [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) - Artificial Latent Image Composition Engine
 - [website](https://github.com/SyntheticAutonomicMind/website) - Documentation and guides
 
