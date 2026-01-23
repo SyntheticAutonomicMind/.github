@@ -15,24 +15,24 @@ The entry point for most users. Privacy-first, powerful, and designed for non-te
 
 ## Our Products
 
-### [LINK] **SAM** - The Core Experience
+### 🔗 **SAM** - The Core Experience
 
 **A native macOS AI assistant that remembers, creates, and gets work done.**
 
 For everyday macOS users who want powerful AI without complexity.
 
-- **[LINK] Repository:** [github.com/SyntheticAutonomicMind/SAM](https://github.com/SyntheticAutonomicMind/SAM)
-- **[DOC] Full Documentation:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)
+- **🔗 Repository:** [github.com/SyntheticAutonomicMind/SAM](https://github.com/SyntheticAutonomicMind/SAM)
+- **📄 Full Documentation:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)
 - **⬇️ Download:** [Latest Release](https://github.com/SyntheticAutonomicMind/SAM/releases)
 
 **What you can do with SAM:**
 -  **Chat naturally** with AI (voice or text) — Say "Hey SAM" to go hands-free
 -  **Work with documents** — Upload PDFs, Word docs, Excel files and ask questions
 -  **Generate images locally** — Create images with Stable Diffusion (no internet needed)
-- [BRAIN] **Smart memory** — SAM remembers your conversations and finds them semantically
+- 🧠 **Smart memory** — SAM remembers your conversations and finds them semantically
 -  **Multiple AI providers** — Use OpenAI, Claude, local models (MLX, llama.cpp), or DeepSeek
-- [ROCKET] **Access from anywhere** — Chat with SAM from your iPad or iPhone via SAM-Web
-- [CONFIG]️ **Automate tasks** — Run commands, manage files, research the web
+- 🚀 **Access from anywhere** — Chat with SAM from your iPad or iPhone via SAM-Web
+- ⚙️️ **Automate tasks** — Run commands, manage files, research the web
 
 **Why SAM?**
 - Your data stays on your Mac (always)
@@ -42,22 +42,22 @@ For everyday macOS users who want powerful AI without complexity.
 
 ---
 
-### [LINK] **ALICE** - Image Generation Backend
+### 🔗 **ALICE** - Image Generation Backend
 
 **A professional Stable Diffusion service for developers and organizations.**
 
 For engineers building image generation into their applications, or deploying GPU workloads at scale.
 
-- **[LINK] Repository:** [github.com/SyntheticAutonomicMind/ALICE](https://github.com/SyntheticAutonomicMind/ALICE)
-- **[DOC] Documentation:** [README](https://github.com/SyntheticAutonomicMind/ALICE#readme)
+- **🔗 Repository:** [github.com/SyntheticAutonomicMind/ALICE](https://github.com/SyntheticAutonomicMind/ALICE)
+- **📄 Documentation:** [README](https://github.com/SyntheticAutonomicMind/ALICE#readme)
 
 **What ALICE provides:**
 -  **OpenAI-compatible REST API** for Stable Diffusion image generation
-- [ROCKET] **Multi-GPU support** — NVIDIA (CUDA), AMD (ROCm), Apple Silicon, CPU
+- 🚀 **Multi-GPU support** — NVIDIA (CUDA), AMD (ROCm), Apple Silicon, CPU
 - ️ **Production deployment** — Systemd daemon for Linux, launchd for macOS
 -  **Privacy controls** — Image ownership tracking, expiring public galleries
-- [DONE] **Model management** — Download from CivitAI and HuggingFace automatically
-- [LINK] **Works with SAM** — Optional provider for offloading image generation
+- ✅ **Model management** — Download from CivitAI and HuggingFace automatically
+- 🔗 **Works with SAM** — Optional provider for offloading image generation
 
 **Who uses ALICE?**
 - Developers building AI image features
@@ -66,14 +66,14 @@ For engineers building image generation into their applications, or deploying GP
 
 ---
 
-### [LINK] **CLIO** - Terminal AI Assistant
+### 🔗 **CLIO** - Terminal AI Assistant
 
 **An AI code assistant that lives in your terminal. Privacy-first, portable, tool-powered.**
 
 For developers, sysadmins, and power users who prefer the command line.
 
-- **[LINK] Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)
-- **[DOC] User Guide:** [Documentation](https://github.com/SyntheticAutonomicMind/CLIO#readme)
+- **🔗 Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)
+- **📄 User Guide:** [Documentation](https://github.com/SyntheticAutonomicMind/CLIO#readme)
 - **⬇️ Install:** See repository for setup
 
 **What CLIO does:**
@@ -81,10 +81,10 @@ For developers, sysadmins, and power users who prefer the command line.
 -  **File operations** — Read, write, search, edit files seamlessly
 -  **Full Git integration** — Commit, diff, branch, merge from chat
 -  **Run commands** — Execute shell scripts and see results in real-time
-- [BRAIN] **Persistent memory** — Save and recall context across sessions
+- 🧠 **Persistent memory** — Save and recall context across sessions
 - ️ **Todo lists** — Manage tasks without leaving your workflow
-- [TARGET] **Custom instructions** — Per-project `.clio/instructions.md` for your standards
-- [ROCKET] **Multiple AI backends** — GitHub Copilot, OpenAI, DeepSeek, SAM, and more
+- 🎯 **Custom instructions** — Per-project `.clio/instructions.md` for your standards
+- 🚀 **Multiple AI backends** — GitHub Copilot, OpenAI, DeepSeek, SAM, and more
 
 **Who uses CLIO?**
 - Terminal-first developers
@@ -121,7 +121,7 @@ CLIO (Terminal)                ALICE (Backend)
 - **CLIO Install:** [github.com/SyntheticAutonomicMind/CLIO#installation](https://github.com/SyntheticAutonomicMind/CLIO#installation)
 
 **Support & Community:**
-- [BUG] **Report Issues:** [github.com/SyntheticAutonomicMind/SAM/issues](https://github.com/SyntheticAutonomicMind/SAM/issues)
+- 🐛 **Report Issues:** [github.com/SyntheticAutonomicMind/SAM/issues](https://github.com/SyntheticAutonomicMind/SAM/issues)
 -  **Discussions:** Each repository has its own discussions
 - ️ **Support Us:** [Patreon (patreon.com/fewtarius)](https://www.patreon.com/fewtarius)
 
@@ -152,9 +152,9 @@ All our projects are **100% free & open source** under GPL v3.0 (code) and CC BY
 
 Your support helps us:
 -  Fund software licenses and developer accounts
-- [ROCKET] Build new features and improve existing ones
+- 🚀 Build new features and improve existing ones
 -  Maintain infrastructure and deployment systems
-- [DOC] Create documentation and tutorials
+- 📄 Create documentation and tutorials
 
 **[Become a Patron](https://www.patreon.com/fewtarius)**  
 Help us build the next generation of transparent, user-first AI tools. Let's create something special together.
