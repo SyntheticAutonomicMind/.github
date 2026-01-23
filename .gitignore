@@ -1,0 +1,14 @@
+.clio/logs/
+.clio/sessions/
+.clio/memory/
+.clio/*json
+
+# Editor files
+*.swp
+*.bak
+*~
+.*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db

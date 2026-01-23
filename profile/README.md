@@ -133,6 +133,67 @@ SAM's clean interface and natural interactions make powerful AI accessible to ev
 
 ---
 
+##  Screenshots
+
+Get a glimpse of SAM's native macOS interface in action:
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3>Natural Conversation</h3>
+      <img src=".images/sam-image-1.png"/>
+      <em>User greeting SAM and asking it to describe what it can help with - SAM responds with a friendly, comprehensive overview</em>
+    </td>
+    <td width="50%">
+      <h3>Flexible AI Provider Selection</h3>
+      <img src=".images/sam-image-7.png"/>
+      <em>Choose from local models (MLX, llama.cpp), cloud providers (OpenAI, Anthropic, DeepSeek), or image generation models</em>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3>Local Image Generation</h3>
+      <img src=".images/sam-image-2.png"/>
+      <em>User asks SAM to generate an image of a cruise ship sailing in the ocean - created locally without any cloud services</em>
+    </td>
+    <td width="50%">
+      <h3>Image Analysis</h3>
+      <img src=".images/sam-image-3.png"/>
+      <em>SAM provides a detailed description of the cruise ship image it just created</em>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3>Travel Research</h3>
+      <img src=".images/sam-image-4.png"/>
+      <em>User asks about restaurants in a town they'll be visiting - SAM helps with travel planning and local recommendations</em>
+    </td>
+    <td width="50%">
+      <h3>Shopping Assistance</h3>
+      <img src=".images/sam-image-5.png"/>
+      <em>User inquires about availability and pricing of two items on Amazon - SAM helps with product research</em>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3>Model Training Settings</h3>
+      <img src=".images/sam-image-6.png"/>
+      <em>Configure custom model training with LoRA fine-tuning to specialize SAM for your domain</em>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## Get started in minutes
 
 [⬇️ Download SAM](https://github.com/SyntheticAutonomicMind/SAM/releases/latest) for macOS 14.0+  
