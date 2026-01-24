@@ -101,6 +101,7 @@ For developers, sysadmins, and power users who prefer the command line.
 **Support & Community:**
 - **Report Issues:** [github.com/SyntheticAutonomicMind/SAM/issues](https://github.com/SyntheticAutonomicMind/SAM/issues)
 - **Discussions:** Each repository has its own discussions
+- **Community Hub:** [r/PopularAI](https://www.reddit.com/r/PopularAI/) - Discuss AI breakthroughs and real-world applications
 - ️**Support Us:** [Patreon (patreon.com/fewtarius)](https://www.patreon.com/fewtarius)
 
 **All Repositories:**
