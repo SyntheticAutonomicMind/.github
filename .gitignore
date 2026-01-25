@@ -1,7 +1,10 @@
+# CLIO AI Assistant
+ai-assisted/202*
+scratch/
 .clio/logs/
 .clio/sessions/
 .clio/memory/
-.clio/*json
+.clio/*.json
 
 # Editor files
 *.swp
@@ -12,3 +15,4 @@
 # OS files
 .DS_Store
 Thumbs.db
+

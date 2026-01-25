@@ -1,13 +1,43 @@
-# CLIO Project Instructions
+# CLIO Project Instructions - SAM GitHub Profile Repository
 
-**Project:** Synthetic Autonomic Mind (SAM) - GitHub Profile Repository  
+**Project:** Synthetic Autonomic Mind (SAM) - GitHub Organization Profile  
 **Purpose:** GitHub organization profile page showcasing SAM AI assistant  
 **Architecture:** Documentation repository with profile README and screenshots  
+**Audience:** End users discovering SAM for the first time
 
 
 ## CRITICAL: READ FIRST BEFORE ANY WORK
 
-### Project Overview
+### The Unbroken Method (Core Principles)
+
+This project follows **The Unbroken Method** for human-AI collaboration. This isn't just project style—it's the core operational framework.
+
+**The Seven Pillars:**
+
+1. **Continuous Context** - Never break the conversation. Maintain momentum through collaboration checkpoints.
+2. **Complete Ownership** - If you find a bug, fix it. No "out of scope."
+3. **Investigation First** - Read content before changing it. Never assume.
+4. **Root Cause Focus** - Fix problems, not symptoms.
+5. **Complete Deliverables** - No partial solutions. Finish what you start.
+6. **Structured Handoffs** - Document everything for the next session.
+7. **Learning from Failure** - Document mistakes to prevent repeats.
+
+**If you skip this, you will violate the project's core methodology.**
+
+### Collaboration Checkpoint Discipline
+
+**Use `user_collaboration` tool at EVERY key decision point:**
+
+| Checkpoint | When | Purpose |
+|-----------|------|---------|
+| After Investigation | Before any changes | Share findings, get approval for changes |
+| After Implementation | Before commit | Show results, verify accuracy |
+
+**[FAIL]** Make documentation changes without investigation  
+**[OK]** Investigate freely, but checkpoint before committing changes
+
+
+## Project Overview
 
 This is the GitHub profile repository for **Synthetic Autonomic Mind** organization. It contains:
 - `profile/README.md` - The organization's public-facing profile page
@@ -32,6 +62,54 @@ SAM is a native macOS AI assistant built for non-developers. Key features:
 - [SAM-Web](https://github.com/SyntheticAutonomicMind/SAM-web) - Remote web interface
 - [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) - Image generation engine
 - [website](https://github.com/SyntheticAutonomicMind/website) - Documentation site
+
+
+## Quick Start for Documentation Work
+
+### Before Editing Any Content
+
+1. **Understand the context:**
+   ```bash
+   cat profile/README.md            # Current profile content
+   ls -la profile/.images/          # Available screenshots
+   cat .github/FUNDING.yml          # Funding configuration
+   ```
+
+2. **Know the standards:**
+   - **User-first language** - Speak to end users, not developers
+   - **Privacy-focused messaging** - Always emphasize local-first
+   - **Benefit-driven** - Lead with what users can accomplish
+   - **Welcoming tone** - Friendly and approachable
+   - **Consistent voice** - Matches SAM's philosophy
+
+3. **Use the workflow:**
+   ```bash
+   # Preview changes locally (if markdown viewer available)
+   # Otherwise, check rendering on GitHub after push
+   
+   git status
+   git diff profile/README.md
+   ```
+
+### Core Workflow
+
+```
+1. Read current content (investigation)
+2. Use collaboration tool (get approval)
+3. Make changes (implementation)
+4. Verify rendering (testing - GitHub preview)
+5. Commit with clear message (handoff)
+```
+
+
+## Key Files & Directories
+
+| Path | Purpose | Status |
+|------|---------|--------|
+| `profile/README.md` | Organization profile page | **PRIMARY CONTENT** |
+| `profile/.images/` | Screenshots and images | [OK] Visual assets |
+| `.github/FUNDING.yml` | Patreon funding config | [OK] Only change if username changes |
+| `README.md` | Repository documentation | [OK] Meta documentation |
 
 
 ## Core Principles for This Repository
@@ -93,7 +171,7 @@ Emojis serve as visual anchors for scanning:
 - 📖 **[DOC]** - Documentation
 - 🐛 **[BUG]** - Issue tracking
 - ❤️ - Support/Patreon
-- 🎤 - Voice features
+- 🎙️ - Voice features
 - 🧠 **[BRAIN]** - Intelligence/memory
 - 🎨 - Creative/image features
 - 📝 **[NOTE]** - Writing/documents
@@ -140,13 +218,29 @@ When adding screenshots to README:
 - Link to full-resolution versions if needed
 
 
-## Workflow Standards
+## Testing & Verification
 
-### Before Making Changes
-1. **Read the current content** - Understand context and voice
-2. **Check git history** - See what changed recently and why
-3. **Preview changes** - Ensure formatting renders correctly
-4. **Verify all links** - Test external URLs
+### Before Committing Changes
+
+```bash
+# 1. Verify markdown syntax is valid
+# (GitHub will render profile/README.md automatically)
+
+# 2. Check image paths
+ls -lh profile/.images/
+
+# 3. Verify file sizes
+du -sh profile/.images/*
+
+# 4. Test links (manually open in browser or use link checker)
+
+# 5. Preview rendering
+# - Push to test branch and check GitHub preview
+# - Or use local markdown viewer
+```
+
+
+## Commit Workflow
 
 ### Commit Message Format
 ```
@@ -178,21 +272,6 @@ Solution: Updated to current repository location
 Impact: Users can find ALICE project correctly
 ```
 
-### Testing Changes
-```bash
-# Check that markdown is valid
-# (GitHub will render profile/README.md automatically)
-
-# Verify image paths
-ls -lh profile/.images/
-
-# Check file sizes
-du -sh profile/.images/*
-
-# Preview locally (if you have a markdown viewer)
-# Or push to a test branch and check GitHub rendering
-```
-
 
 ## Common Tasks
 
@@ -219,6 +298,30 @@ du -sh profile/.images/*
 # 2. Follow existing format: [Name](URL) - Description
 # 3. Keep descriptions brief (one line)
 # 4. Maintain alphabetical or logical order
+```
+
+
+## Session Handoff Procedures (MANDATORY)
+
+### CRITICAL: Session Handoff Directory Structure
+
+When ending a session, **ALWAYS** create a properly structured handoff directory:
+
+```
+ai-assisted/YYYYMMDD/HHMM/
+├── CONTINUATION_PROMPT.md  [MANDATORY] - Next session's complete context
+├── AGENT_PLAN.md           [MANDATORY] - Remaining priorities & blockers
+├── CHANGELOG.md            [OPTIONAL]  - User-facing changes (if applicable)
+└── NOTES.md                [OPTIONAL]  - Additional technical notes
+```
+
+**NEVER COMMIT** `ai-assisted/` directory to git. Always verify before committing:
+
+```bash
+git status  # Ensure no ai-assisted/ files staged
+git add -A
+git status  # Double-check
+git commit -m "message"
 ```
 
 
