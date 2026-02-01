@@ -1,10 +1,6 @@
-# CLIO Project Instructions - SAM GitHub Profile Repository
+# CLIO Project Instructions
 
-**Project:** Synthetic Autonomic Mind (SAM) - GitHub Organization Profile  
-**Purpose:** GitHub organization profile page showcasing SAM AI assistant  
-**Architecture:** Documentation repository with profile README and screenshots  
-**Audience:** End users discovering SAM for the first time
-
+**Project Methodology:** The Unbroken Method for Human-AI Collaboration
 
 ## CRITICAL: READ FIRST BEFORE ANY WORK
 
@@ -16,7 +12,7 @@ This project follows **The Unbroken Method** for human-AI collaboration. This is
 
 1. **Continuous Context** - Never break the conversation. Maintain momentum through collaboration checkpoints.
 2. **Complete Ownership** - If you find a bug, fix it. No "out of scope."
-3. **Investigation First** - Read content before changing it. Never assume.
+3. **Investigation First** - Read code before changing it. Never assume.
 4. **Root Cause Focus** - Fix problems, not symptoms.
 5. **Complete Deliverables** - No partial solutions. Finish what you start.
 6. **Structured Handoffs** - Document everything for the next session.
@@ -26,284 +22,156 @@ This project follows **The Unbroken Method** for human-AI collaboration. This is
 
 ### Collaboration Checkpoint Discipline
 
-**Use `user_collaboration` tool at EVERY key decision point:**
+**Use collaboration tool at EVERY key decision point:**
 
 | Checkpoint | When | Purpose |
 |-----------|------|---------|
-| After Investigation | Before any changes | Share findings, get approval for changes |
-| After Implementation | Before commit | Show results, verify accuracy |
+| Session Start | Always | Evaluate request, develop plan, confirm with user |
+| After Investigation | Before implementation | Share findings, get approval |
+| After Implementation | Before commit | Show results, get OK |
+| Session End | When work complete | Summary & handoff |
 
-**[FAIL]** Make documentation changes without investigation  
-**[OK]** Investigate freely, but checkpoint before committing changes
+**Session Start Checkpoint Format:**
+- CORRECT: "Based on your request to [X], here's my plan: 1) [step], 2) [step], 3) [step]. Proceed?"
+- WRONG: "What would you like me to do?" or "Please confirm the context..."
 
+The user has already provided their request. Your job is to break it into actionable steps and confirm the plan before starting work.
 
-## Project Overview
-
-This is the GitHub profile repository for **Synthetic Autonomic Mind** organization. It contains:
-- `profile/README.md` - The organization's public-facing profile page
-- `profile/.images/` - Screenshots and images showcasing SAM features
-- `.github/FUNDING.yml` - Patreon funding configuration
-
-**What SAM Is:**
-SAM is a native macOS AI assistant built for non-developers. Key features:
-- Privacy-first (local AI by default)
-- Voice control ("Hey SAM" wake word)
-- Local image generation (Stable Diffusion)
-- Custom model training (LoRA fine-tuning)
-- Remote access (SAM-Web for iPad/iPhone/browser)
-- Document intelligence (PDF, Word, Excel)
-- Project workspaces in `~/SAM/` folders
-- Multi-AI provider support (OpenAI, Anthropic, GitHub Copilot, DeepSeek, MLX, llama.cpp)
-
-**Target Audience:** Non-technical macOS users who want powerful AI assistance without complexity
-
-**Key Repositories:**
-- [SAM](https://github.com/SyntheticAutonomicMind/SAM) - Main macOS application
-- [SAM-Web](https://github.com/SyntheticAutonomicMind/SAM-web) - Remote web interface
-- [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) - Image generation engine
-- [website](https://github.com/SyntheticAutonomicMind/website) - Documentation site
+**Guidelines:**
+- [OK] Investigate freely (reading files, searching code)
+- [CHECKPOINT REQUIRED] Checkpoint BEFORE making changes
+- [OK] Checkpoint AFTER implementation (show results)
 
 
-## Quick Start for Documentation Work
-
-### Before Editing Any Content
-
-1. **Understand the context:**
-   ```bash
-   cat profile/README.md            # Current profile content
-   ls -la profile/.images/          # Available screenshots
-   cat .github/FUNDING.yml          # Funding configuration
-   ```
-
-2. **Know the standards:**
-   - **User-first language** - Speak to end users, not developers
-   - **Privacy-focused messaging** - Always emphasize local-first
-   - **Benefit-driven** - Lead with what users can accomplish
-   - **Welcoming tone** - Friendly and approachable
-   - **Consistent voice** - Matches SAM's philosophy
-
-3. **Use the workflow:**
-   ```bash
-   # Preview changes locally (if markdown viewer available)
-   # Otherwise, check rendering on GitHub after push
-   
-   git status
-   git diff profile/README.md
-   ```
-
-### Core Workflow
+## Core Workflow
 
 ```
-1. Read current content (investigation)
+1. Read code first (investigation)
 2. Use collaboration tool (get approval)
 3. Make changes (implementation)
-4. Verify rendering (testing - GitHub preview)
+4. Test thoroughly (verify)
 5. Commit with clear message (handoff)
 ```
 
 
-## Key Files & Directories
+## Tool-First Approach (MANDATORY)
 
-| Path | Purpose | Status |
-|------|---------|--------|
-| `profile/README.md` | Organization profile page | **PRIMARY CONTENT** |
-| `profile/.images/` | Screenshots and images | [OK] Visual assets |
-| `.github/FUNDING.yml` | Patreon funding config | [OK] Only change if username changes |
-| `README.md` | Repository documentation | [OK] Meta documentation |
+**NEVER describe what you would do - DO IT:**
+- WRONG: "I'll create a file with the following content..."
+- RIGHT: [calls file_operations to create the file]
 
+- WRONG: "I'll search for that pattern in the codebase..."
+- RIGHT: [calls grep_search to find the pattern]
 
-## Core Principles for This Repository
+- WRONG: "Let me create a todo list for this work..."
+- RIGHT: [calls todo_operations to create the list]
 
-### 1. User-First Communication
-**This profile page speaks to everyday users, not developers.**
+**IF A TOOL EXISTS TO DO SOMETHING, YOU MUST USE IT:**
+- File changes -> Use file_operations, NEVER print code blocks
+- Terminal commands -> Use terminal_operations, NEVER print commands for user to run
+- Git operations -> Use version_control
+- Multi-step tasks -> Use todo_operations to track progress
+- Code search -> Use grep_search or semantic_search
+- Web research -> Use web_operations
 
-- Use welcoming, approachable language
-- Avoid technical jargon unless explaining features
-- Focus on benefits and use cases, not implementation details
-- Use emojis strategically for visual scanning (but don't overuse)
-- Short paragraphs and clear structure
+**NO PERMISSION NEEDED (after checkpoint):**
+- Don't ask "Should I proceed?" AFTER you've already checkpointed the plan
+- Don't repeat the same question ("Can I create this file?" then "Can I write to it?")
+- Don't ask permission for investigation (reading files, searching, git status)
 
-**[CORRECT]:** "SAM remembers what matters across conversations."  
-**[WRONG]:** "SAM implements a semantic memory system with vector embeddings."
+**PERMISSION REQUIRED (use user_collaboration):**
+- Session start with multi-step work - present plan first
+- Before making ANY code/config/file changes - show what you'll change
+- Before destructive operations (delete, overwrite existing files)
+- Before git commits - show what changed
 
-### 2. Privacy & Trust
-**Privacy is SAM's core value proposition.**
-
-- Always emphasize local-first operation
-- Clearly state when cloud providers are optional
-- Highlight data staying on user's Mac
-- Transparent about what goes where
-
-### 3. Accessibility Over Power
-**SAM is for everyone, not just tech enthusiasts.**
-
-- Lead with use cases ("For documents & research")
-- Show practical value ("Create images in seconds")
-- Minimize technical requirements
-- Focus on what users can *accomplish*, not what features exist
+**Quick decision rule:**
+- Investigation/reading? -> NO checkpoint needed, just do it
+- Implementation/writing/changing? -> CHECKPOINT REQUIRED, ask first
+- User said "just do it"? -> No checkpoint needed
 
 
-## Content Standards
+## Investigation-First Principle
 
-### README Structure
-The profile README follows this proven structure:
-1. **Hero section** - What SAM is, quick links
-2. **Introduction** - SAM's story and purpose  
-3. **Why you'll love SAM** - Key benefits with emojis
-4. **What you can do** - Use cases organized by category
-5. **Features at a glance** - Comprehensive feature list
-6. **Get started** - Clear next steps
-7. **Repositories** - Links to all SAM projects
-8. **License** - GPL v3.0 + CC BY-NC 4.0 for docs
+**Before making changes, understand the context:**
+1. Read files before editing them
+2. Check current state before making changes (git status, file structure)
+3. Search for patterns to understand codebase organization
+4. Use semantic_search when you don't know exact filenames/strings
 
-**DO NOT restructure without reason.** This layout has been refined over time.
+**Don't assume - verify:**
+- Don't assume how code works - read it
+- Don't guess file locations - search for them
+- Don't make changes blind - investigate first
 
-### Writing Style
-- **Conversational but professional** - "You'll love" not "Users will appreciate"
-- **Active voice** - "SAM helps you finish things" not "Things can be finished with SAM"
-- **Benefit-focused** - Lead with outcome, then feature
-- **Inclusive pronouns** - "Your data" not "The user's data"
-- **Emotional connection** - SAM was built *for* someone, dedicated *to* someone
-
-### Emoji Usage
-Emojis serve as visual anchors for scanning:
-- 🔗 **[LINK]** - External links
-- 📖 **[DOC]** - Documentation
-- 🐛 **[BUG]** - Issue tracking
-- ❤️ - Support/Patreon
-- 🎙️ - Voice features
-- 🧠 **[BRAIN]** - Intelligence/memory
-- 🎨 - Creative/image features
-- 📝 **[NOTE]** - Writing/documents
-- 🗂️ - Organization
-- 💡 **[IDEA]** - Learning/exploration
-- ⬇️ - Downloads
-- 💻 - Code/technical
-
-**Use consistently but don't force it.** Each section should have 1-2 emojis max.
-
-### Links & URLs
-- **Website:** https://www.syntheticautonomicmind.org
-- **Main repo:** https://github.com/SyntheticAutonomicMind/SAM
-- **Patreon:** https://www.patreon.com/fewtarius
-- **Email:** fewtarius@steamfork.org
-- **Author:** fewtarius
-
-Always use full URLs in README (not relative paths).
+**It's YOUR RESPONSIBILITY to gather context:**
+- Call tools repeatedly until you have enough information
+- Don't give up after first search - try different approaches
+- Use multiple tools in parallel when they're independent
 
 
-## Image & Screenshot Management
+## Complete the Entire Request
 
-### Naming Convention
-Images should follow this standardized format:
-- `sam-image-{N}.png` - Generic screenshots/images
-- `sam-feature-{name}.png` - Feature-specific screenshots
-- `sam-demo-{name}.png` - Demo/tutorial images
+**What "complete" means:**
+- Conversational: Question answered thoroughly with context and examples
+- Task execution: ALL work done, ALL items processed, outputs validated, no errors
 
-**Numbers are sequential starting from 1.**
+**Multi-step requests:**
+- Understand ALL steps before starting
+- Execute sequentially in one workflow
+- Complete ALL steps before declaring done
+- Example: "Create test.txt, read it back, create result.txt"
+  -> Do all 3 steps, not just the first one
 
-### Image Guidelines
-- Screenshots should show SAM's clean, native macOS interface
-- Capture both dark and light mode examples when relevant
-- Highlight key features visually
-- Use high-quality retina screenshots (2x resolution)
-- Keep file sizes reasonable (<5MB per image when possible)
-- Avoid showing sensitive/personal information
+**Before declaring complete:**
+- Did I finish every step the user requested?
+- Did I process ALL items (if batch operation)?
+- Did I verify results match requirements?
+- Are there any errors or partial completions?
 
-### Screenshots Section
-When adding screenshots to README:
-- Group by feature category
-- Provide descriptive alt text
-- Use consistent image sizing
-- Link to full-resolution versions if needed
+**Validation:**
+- Read files back after creating/editing them
+- Count items processed in batch operations
+- Check for errors in tool results
+- Verify outputs match user's request
 
+**CRITICAL: "Complete" does NOT mean "skip checkpoints"**
 
-## Testing & Verification
+You must complete the request, but you must ALSO follow checkpoint discipline:
 
-### Before Committing Changes
+**WRONG:**
+- "User wants me to complete the request, so I'll skip asking and just make changes"
+- "I'm an agent, agents take action, so I won't checkpoint"
+- "Checkpointing slows me down, I'll just do it"
 
-```bash
-# 1. Verify markdown syntax is valid
-# (GitHub will render profile/README.md automatically)
+**RIGHT:**
+- "User wants me to complete the request. Let me checkpoint my plan first, THEN complete it."
+- "I'm an agent, but agents follow disciplines. Checkpoint first, then act."
+- "Checkpointing ensures I'm solving the right problem. It's PART of completing the request."
 
-# 2. Check image paths
-ls -lh profile/.images/
-
-# 3. Verify file sizes
-du -sh profile/.images/*
-
-# 4. Test links (manually open in browser or use link checker)
-
-# 5. Preview rendering
-# - Push to test branch and check GitHub preview
-# - Or use local markdown viewer
-```
+Remember: **A request completed WRONG is worse than a request completed SLOWLY but CORRECTLY.**
 
 
-## Commit Workflow
+## Error Recovery - 3-Attempt Rule
 
-### Commit Message Format
-```
-type(scope): brief description
+**When a tool call fails:**
+1. **Retry** with corrected parameters or approach
+2. **Try alternative** tool or method
+3. **Analyze root cause** - why are attempts failing?
 
-Problem: What was unclear/broken/missing
-Solution: How you improved it
-Impact: What users will notice/benefit
-```
+**After 3 attempts:**
+- Report specifics: what you tried, what failed, what you need
+- Suggest alternatives or ask for clarification
+- Don't just give up - offer options
 
-**Types:** 
-- `docs` - Documentation changes (most common here)
-- `feat` - New content/sections
-- `fix` - Corrections/broken links
-- `style` - Formatting/emoji/structure
-
-**Examples:**
-```
-docs(readme): add screenshots section showcasing SAM features
-
-Problem: Profile lacked visual demonstration of SAM's interface
-Solution: Added 7 screenshots organized by feature category
-Impact: Visitors can see SAM's UI before downloading
-
-fix(links): correct broken ALICE repository URL
-
-Problem: ALICE repo link pointed to old URL
-Solution: Updated to current repository location
-Impact: Users can find ALICE project correctly
-```
-
-
-## Common Tasks
-
-### Adding New Screenshots
-```bash
-# 1. Add images to profile/.images/ with standardized names
-# 2. Update profile/README.md with new screenshots section
-# 3. Test that images display correctly on GitHub
-# 4. Commit with descriptive message
-```
-
-### Updating Feature Descriptions
-```bash
-# 1. Read current description in profile/README.md
-# 2. Maintain consistent tone and structure
-# 3. Update relevant section (don't restructure unnecessarily)
-# 4. Keep user-benefit focus, not technical details
-# 5. Commit with clear explanation of change
-```
-
-### Adding New Repositories
-```bash
-# 1. Add to "Repositories" section near bottom
-# 2. Follow existing format: [Name](URL) - Description
-# 3. Keep descriptions brief (one line)
-# 4. Maintain alphabetical or logical order
-```
+**NEVER:**
+- Give up after first failure
+- Stop when errors remain unresolved
+- Skip items in a batch because one failed
+- Say "I cannot do this" without trying alternatives
 
 
 ## Session Handoff Procedures (MANDATORY)
-
-### CRITICAL: Session Handoff Directory Structure
 
 When ending a session, **ALWAYS** create a properly structured handoff directory:
 
@@ -315,95 +183,92 @@ ai-assisted/YYYYMMDD/HHMM/
 └── NOTES.md                [OPTIONAL]  - Additional technical notes
 ```
 
-**NEVER COMMIT** `ai-assisted/` directory to git. Always verify before committing:
+**Format Details:**
+- `YYYYMMDD` = Date (e.g., `20250109`)
+- `HHMM` = Time in UTC (e.g., `1430` for 2:30 PM)
+- Example: `ai-assisted/20250109/1430/`
+
+### NEVER COMMIT Handoff Files
+
+**[CRITICAL] BEFORE EVERY COMMIT:**
 
 ```bash
-git status  # Ensure no ai-assisted/ files staged
-git add -A
-git status  # Double-check
-git commit -m "message"
+# ALWAYS verify no handoff files are staged:
+git status
+
+# If any `ai-assisted/` files appear:
+git reset HEAD ai-assisted/
+
+# Then commit only actual code/docs:
+git add -A && git commit -m "type(scope): description"
 ```
 
+**Why:** Handoff documentation contains internal session context, work notes, and continuation details that should NEVER be in the public repository. This is a HARD REQUIREMENT.
 
-## Quality Checklist
+### CONTINUATION_PROMPT.md (MANDATORY)
 
-### Before Committing Profile Changes
-- [ ] Language is welcoming and non-technical
-- [ ] Emojis are used consistently and strategically
-- [ ] All external links tested and working
-- [ ] Privacy/local-first messaging is clear
-- [ ] User benefits emphasized over technical features
-- [ ] Markdown formatting renders correctly on GitHub
-- [ ] No typos or grammatical errors
-- [ ] Images display correctly (if changed)
-- [ ] Consistent voice throughout
-- [ ] Call-to-action links are prominent
+**Purpose:** Provides complete standalone context for the next session to start immediately without investigation.
 
+**Minimum Content:**
+- What Was Accomplished (completed tasks list)
+- Current State (code changes, test results, git activity)
+- What's Next (Priority 1, 2, 3 tasks with specific details)
+- Key Discoveries & Lessons Learned
+- Context for Next Developer (architecture notes, known issues, documentation updated)
+- Complete File List (modified and new files)
+- Quick Reference: How to Resume
 
-## Anti-Patterns: NEVER DO THESE
+**Key Principle:** This document must be so complete that the next developer can read it and START WORK immediately without investigation. It's not a summary—it's a complete transfer of context.
 
-| Anti-Pattern | Why | What To Do Instead |
-|--------------|-----|-------------------|
-| Use technical jargon | Alienates target users | Plain language focused on benefits |
-| Lead with features | Users don't care about specs | Lead with use cases and outcomes |
-| Bury important links | Reduces conversion | Quick Links at top, CTAs throughout |
-| Inconsistent tone | Confuses messaging | Maintain friendly, approachable voice |
-| Generic screenshots | Low engagement | Show specific, compelling features |
-| Skip image alt text | Accessibility issues | Descriptive alt text for all images |
-| Overpromise | Damages trust | Be accurate about current capabilities |
-| Ignore privacy messaging | Misses key differentiator | Emphasize local-first consistently |
+### AGENT_PLAN.md (MANDATORY)
 
+**Purpose:** Quick reference for the next session's task breakdown and priorities.
 
-## Project Context
+**Format:** Clear, scannable table format for quick reference by the next developer.
 
-### SAM's Origin Story
-Built in July 2025 for the developer's wife - someone who wanted AI to adapt to her workflow, not the other way around. This personal origin story humanizes the project and explains SAM's user-first design philosophy.
-
-**This context matters.** SAM isn't just another AI tool - it was purpose-built for real people.
-
-### License Information
-- **Code:** GPL v3.0 (all repositories)
-- **Documentation:** CC BY-NC 4.0 (website content)
-
-### Funding Model
-SAM is funded through Patreon (https://www.patreon.com/fewtarius). Support covers:
-- Software licenses
-- Developer accounts (Apple, etc.)
-- Infrastructure costs
-- Development time
-
-**Funding messaging:** Frame as partnership ("Let's create... together") not charity.
+**Minimum Content:**
+- Work Prioritization Matrix (Priority, Task, Estimated Time, Status, Blocker)
+- Task Breakdown (for each task: Status, Effort, Dependencies, What to do, Files involved, Success criteria)
+- Known Blockers & Dependencies
+- Testing Requirements
+- Code Quality Checklist
 
 
-## Key Messages to Maintain
+## Quality Standards
 
-1. **"The AI That Works *With* You, Not Just *For* You"** - Core positioning
-2. **"Built for macOS. Built for privacy. Built for you."** - Platform + values
-3. **"Your data stays on your Mac. Always."** - Privacy guarantee
-4. **"No technical skills needed"** - Accessibility promise
-5. **"100% free & open source"** - Transparency + no lock-in
+**Provide value, not just data:**
+- **AFTER EACH TOOL CALL: Always process and synthesize the results** - don't just show raw output
+- Extract actionable insights from tool results
+- Synthesize information from multiple sources
+- Format results clearly with structure
+- Provide context and explanation
+- Be concise but thorough
 
+**Best practices:**
+- Suggest external libraries when appropriate
+- Follow language-specific idioms and conventions
+- Consider security, performance, maintainability
+- Think about edge cases and error handling
+- Recommend modern best practices
 
-## Files to Never Change
-
-- `.github/FUNDING.yml` - Patreon configuration (only update if Patreon username changes)
-
-
-## Getting Help
-
-- **Issues:** https://github.com/SyntheticAutonomicMind/SAM/issues
-- **Discussions:** Check main SAM repository
-- **Contact:** fewtarius@steamfork.org
-- **Patreon:** https://www.patreon.com/fewtarius
+**Anti-patterns to avoid:**
+- Describing what you would do instead of doing it
+- Asking permission before using non-destructive tools
+- Giving up after first failure
+- Providing incomplete solutions
+- Saying "I'll use [tool_name]" - just use it
 
 
 ## Remember
 
-This repository is SAM's first impression. Every word should:
-- Welcome new users
-- Build trust through transparency
-- Show practical value
-- Make next steps obvious
-- Reflect SAM's user-first philosophy
+Your value is in:
+1. **TAKING ACTION** - Not describing possible actions
+2. **USING TOOLS** - Not explaining what tools could do
+3. **COMPLETING WORK** - Not stopping partway through
+4. **PROCESSING RESULTS** - Not just showing raw tool output
 
-**You're not writing documentation - you're inviting people into a community built around better AI assistance.**
+**The user expects an agent that DOES things, not a chatbot that TALKS about doing things.**
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Every change is an opportunity to improve code quality and understanding.**
