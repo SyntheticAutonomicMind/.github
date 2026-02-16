@@ -1,0 +1,556 @@
+name: Discussion Moderation with CLIO
+
+on:
+  schedule:
+    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      lookback_minutes:
+        description: 'How many minutes back to check for discussions (default: 30)'
+        required: false
+        default: '30'
+        type: string
+      dry_run:
+        description: 'Analyze only, do not take actions'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  discussions: write
+  contents: write  # Required to update warnings.json
+  packages: read
+
+env:
+  CLIO_MODEL: gpt-5-mini
+  REGISTRY: ghcr.io
+  # Default lookback is 30 minutes to ensure overlap with 15-min schedule
+  LOOKBACK_MINUTES: ${{ github.event.inputs.lookback_minutes || '30' }}
+
+jobs:
+  moderate-batch:
+    name: Batch Moderate Discussions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull CLIO container
+        run: docker pull ghcr.io/syntheticautonomicmind/clio:latest
+
+      - name: Prepare workspace
+        run: |
+          mkdir -p /tmp/clio-workspace
+          cp -r ./* /tmp/clio-workspace/ 2>/dev/null || true
+          cp -r ./.clio /tmp/clio-workspace/ 2>/dev/null || true
+          cp -r ./.github /tmp/clio-workspace/ 2>/dev/null || true
+          mkdir -p /tmp/clio-workspace/.clio/sessions
+          mkdir -p /tmp/clio-config
+
+      - name: Clone organization repos for context
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Clone key repos so CLIO can search their docs/code
+          mkdir -p /tmp/clio-workspace/repos
+          
+          echo "Cloning CLIO repo..."
+          gh repo clone SyntheticAutonomicMind/clio /tmp/clio-workspace/repos/clio -- --depth 1 2>/dev/null || echo "Could not clone clio"
+          
+          echo "Cloning SAM repo..."
+          gh repo clone SyntheticAutonomicMind/SAM /tmp/clio-workspace/repos/SAM -- --depth 1 2>/dev/null || echo "Could not clone SAM"
+          
+          echo "Cloning ALICE repo..."
+          gh repo clone SyntheticAutonomicMind/ALICE /tmp/clio-workspace/repos/ALICE -- --depth 1 2>/dev/null || echo "Could not clone ALICE"
+          
+          echo "Available repos for CLIO to search:"
+          ls -la /tmp/clio-workspace/repos/
+
+      - name: Configure CLIO authentication
+        env:
+          CLIO_ACCESS: ${{ secrets.CLIO_ACCESS }}
+        run: |
+          set +x
+          printf '{"github_token": "%s", "saved_at": %d}' "$CLIO_ACCESS" "$(date +%s)" > /tmp/clio-config/github_tokens.json
+          chmod 600 /tmp/clio-config/github_tokens.json
+          echo '{"provider": "github_copilot"}' > /tmp/clio-config/config.json
+
+      - name: Fetch recent discussions and comments
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOOKBACK: ${{ env.LOOKBACK_MINUTES }}
+        run: |
+          # Calculate cutoff time
+          CUTOFF=$(date -u -d "${LOOKBACK} minutes ago" '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || date -u -v-${LOOKBACK}M '+%Y-%m-%dT%H:%M:%SZ')
+          echo "Looking for activity since: $CUTOFF"
+          echo "cutoff=$CUTOFF" >> $GITHUB_OUTPUT
+
+          # Organization discussions are stored in the source repository (.github)
+          # Query the repository's discussions, not organization.repositoryDiscussions
+          gh api graphql -f query='
+            query($owner: String!, $repo: String!) {
+              repository(owner: $owner, name: $repo) {
+                discussions(first: 50, orderBy: {field: CREATED_AT, direction: DESC}) {
+                  nodes {
+                    id
+                    number
+                    title
+                    body
+                    createdAt
+                    updatedAt
+                    author { login }
+                    category { name }
+                    comments(first: 20) {
+                      nodes {
+                        id
+                        body
+                        createdAt
+                        author { login }
+                        isMinimized
+                      }
+                    }
+                    isAnswered
+                    locked
+                    url
+                  }
+                }
+              }
+            }
+          ' -f owner="${{ github.repository_owner }}" -f repo=".github" > /tmp/clio-workspace/ALL_DISCUSSIONS.json 2>/dev/null
+
+          # Filter to recent activity and format for CLIO
+          # Also skip items where the last comment is already from CLIO (prevent double-responses)
+          jq --arg cutoff "$CUTOFF" '
+            .data.repository.discussions.nodes |
+            map(
+              . as $disc |
+              # Get the last comment author to check for CLIO responses
+              ($disc.comments.nodes | if length > 0 then .[-1].author.login else "" end) as $last_author |
+              
+              # Skip if CLIO or a maintainer already responded (prevent double-posting)
+              if $last_author == "github-actions[bot]" or $last_author == "github-actions" or $last_author == "fewtarius" then
+                null
+              else
+                (
+                  # Check if discussion was created recently
+                  (if $disc.createdAt >= $cutoff then {type: "new_discussion", data: $disc} else null end),
+                  # Check for recent comments (excluding bot comments)
+                  ($disc.comments.nodes | map(select(.createdAt >= $cutoff and .isMinimized == false and .author.login != "github-actions[bot]" and .author.login != "github-actions")) | 
+                    if length > 0 then {type: "new_comments", discussion: {number: $disc.number, title: $disc.title, id: $disc.id}, comments: .} else null end
+                  )
+                )
+              end
+            ) | flatten | map(select(. != null))
+          ' /tmp/clio-workspace/ALL_DISCUSSIONS.json > /tmp/clio-workspace/RECENT_ACTIVITY.json
+
+          ACTIVITY_COUNT=$(jq 'length' /tmp/clio-workspace/RECENT_ACTIVITY.json)
+          echo "Found $ACTIVITY_COUNT items to moderate"
+          echo "activity_count=$ACTIVITY_COUNT" >> $GITHUB_OUTPUT
+
+          # Create a lookup map of item_number -> node_id for the workflow to use later
+          # This avoids relying on CLIO to copy node_ids correctly
+          jq '
+            to_entries | map(
+              {
+                item_number: (.key + 1),
+                type: .value.type,
+                node_id: (if .value.type == "new_discussion" then .value.data.id else .value.discussion.id end),
+                discussion_number: (if .value.type == "new_discussion" then .value.data.number else .value.discussion.number end),
+                title: (if .value.type == "new_discussion" then .value.data.title else .value.discussion.title end)
+              }
+            )
+          ' /tmp/clio-workspace/RECENT_ACTIVITY.json > /tmp/clio-workspace/NODE_ID_LOOKUP.json
+
+          echo "=== Node ID Lookup ==="
+          cat /tmp/clio-workspace/NODE_ID_LOOKUP.json
+
+          # Create human-readable summary for CLIO (no node_ids needed - workflow will look them up)
+          jq -r '
+            if length == 0 then
+              "# No Recent Activity\n\nNo new discussions or comments in the lookback period."
+            else
+              "# Recent Activity to Moderate\n\n" +
+              (to_entries | map(
+                "## Item \(.key + 1): \(.value.type)\n\n" +
+                if .value.type == "new_discussion" then
+                  "**Discussion #\(.value.data.number):** \(.value.data.title)\n" +
+                  "**Author:** \(.value.data.author.login)\n" +
+                  "**Category:** \(.value.data.category.name)\n" +
+                  "**Created:** \(.value.data.createdAt)\n\n" +
+                  "### Body:\n\(.value.data.body)\n"
+                else
+                  "**Discussion #\(.value.discussion.number):** \(.value.discussion.title)\n\n" +
+                  "### New Comments:\n" +
+                  (.value.comments | map(
+                    "- **\(.author.login)** at \(.createdAt):\n  \(.body)\n"
+                  ) | join("\n"))
+                end
+              ) | join("\n---\n\n"))
+            end
+          ' /tmp/clio-workspace/RECENT_ACTIVITY.json > /tmp/clio-workspace/MODERATION_QUEUE.md
+
+          echo "=== Moderation Queue ==="
+          head -100 /tmp/clio-workspace/MODERATION_QUEUE.md
+
+      - name: Skip if no activity
+        if: steps.fetch.outputs.activity_count == '0'
+        run: |
+          echo "No recent activity to moderate. Exiting."
+          echo "## No Activity" >> $GITHUB_STEP_SUMMARY
+          echo "No new discussions or comments in the last ${{ env.LOOKBACK_MINUTES }} minutes." >> $GITHUB_STEP_SUMMARY
+
+      - name: Run CLIO Batch Moderation
+        if: steps.fetch.outputs.activity_count != '0'
+        id: moderate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          TASK="You are in HEADLESS CI/CD MODE. No human is present.
+
+          TASK: Batch Moderate Recent Discussions
+
+          STEPS:
+          1. Read .github/clio-prompts/discussion-moderation-batch.md for instructions
+          2. Read MODERATION_QUEUE.md for items to moderate
+          3. Analyze EACH item and determine appropriate action
+          4. For questions: search repos/ folder for relevant docs/code to help users
+          5. WRITE your decisions to /workspace/moderation-results.json using file_operations
+
+          AVAILABLE REPOS FOR SEARCHING:
+          - /workspace/repos/clio/ - CLIO project (docs, README, code)
+          - /workspace/repos/SAM/ - SAM project (docs, README, code)
+          - /workspace/repos/ALICE/ - ALICE project (docs, README, code)
+          Use file_operations, grep_search, or semantic_search to find relevant info.
+
+          DRY RUN MODE: ${DRY_RUN}
+          (If true, analyze only - do not recommend destructive actions)
+
+          CRITICAL:
+          - DO NOT use user_collaboration (it will hang forever)
+          - Write JSON to /workspace/moderation-results.json using file_operations create_file
+          - Process ALL items in the queue"
+
+          echo "=== Starting CLIO Batch Moderation ==="
+
+          docker run -i --rm \
+            -v "/tmp/clio-workspace":/workspace:rw \
+            -v "/tmp/clio-config":/root/.clio:rw \
+            -w /workspace \
+            -e CLIO_LOG_LEVEL=WARNING \
+            -e GH_TOKEN="${GH_TOKEN}" \
+            ghcr.io/syntheticautonomicmind/clio:latest \
+            --new \
+            --model "$CLIO_MODEL" \
+            --input "$TASK" \
+            --exit 2>&1 | tee /tmp/clio-workspace/full_response.txt || true
+
+          echo ""
+          echo "=== CLIO Moderation Complete ==="
+
+          if [ -f /tmp/clio-workspace/moderation-results.json ]; then
+            echo "moderation-results.json found!"
+          else
+            echo "moderation-results.json NOT found"
+          fi
+
+      - name: Parse and apply moderation decisions
+        if: steps.fetch.outputs.activity_count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          if [ ! -f /tmp/clio-workspace/moderation-results.json ]; then
+            echo "No moderation results file found. Skipping actions."
+            exit 0
+          fi
+
+          echo "=== Raw file contents (for debugging) ==="
+          cat /tmp/clio-workspace/moderation-results.json
+          echo ""
+          echo "=== End raw contents ==="
+
+          # Fix file permissions (Docker creates as root, need to fix for host access)
+          # Copy to temp file, process, and copy back
+          cp /tmp/clio-workspace/moderation-results.json /tmp/moderation-results-temp.json
+          
+          # Sanitize JSON - fix common issues with unicode escapes
+          python3 .github/scripts/sanitize_json.py /tmp/moderation-results-temp.json || {
+            echo "Failed to sanitize JSON. Skipping actions."
+            exit 0
+          }
+          
+          # Copy sanitized version back (use sudo if needed)
+          cp /tmp/moderation-results-temp.json /tmp/clio-workspace/moderation-results.json 2>/dev/null || \
+            sudo cp /tmp/moderation-results-temp.json /tmp/clio-workspace/moderation-results.json
+
+          if ! jq . /tmp/clio-workspace/moderation-results.json > /dev/null 2>&1; then
+            echo "Invalid JSON in moderation results. JSON error:"
+            jq . /tmp/clio-workspace/moderation-results.json 2>&1 || true
+            echo "Skipping actions."
+            exit 0
+          fi
+
+          echo "=== Moderation Results (parsed) ==="
+          cat /tmp/clio-workspace/moderation-results.json
+
+          # Process each decision - look up node_id from our pre-generated lookup
+          jq -c '.decisions[]?' /tmp/clio-workspace/moderation-results.json | while read -r decision; do
+            ACTION=$(echo "$decision" | jq -r '.action // "approve"')
+            ITEM_NUM=$(echo "$decision" | jq -r '.item_number // 0')
+            ITEM_TYPE=$(echo "$decision" | jq -r '.type // "discussion"')
+            MESSAGE=$(echo "$decision" | jq -r '.message // ""')
+            REASON=$(echo "$decision" | jq -r '.reason // ""')
+
+            # Look up the node_id from our trusted lookup file (not from CLIO's output)
+            NODE_ID=$(jq -r --argjson num "$ITEM_NUM" '.[] | select(.item_number == $num) | .node_id // ""' /tmp/clio-workspace/NODE_ID_LOOKUP.json)
+
+            echo "Processing Item $ITEM_NUM ($ITEM_TYPE) - Action: $ACTION - Node ID: $NODE_ID"
+
+            if [ -z "$NODE_ID" ] || [ "$NODE_ID" = "null" ]; then
+              echo "  WARNING: Could not find node_id for item $ITEM_NUM, skipping"
+              continue
+            fi
+
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "  [DRY RUN] Would take action: $ACTION"
+              continue
+            fi
+
+            case "$ACTION" in
+              "welcome"|"respond")
+                if [ -n "$MESSAGE" ]; then
+                  echo "  Posting comment to $NODE_ID..."
+                  gh api graphql -f query='
+                    mutation($discussionId: ID!, $body: String!) {
+                      addDiscussionComment(input: {discussionId: $discussionId, body: $body}) {
+                        comment { id }
+                      }
+                    }
+                  ' -f discussionId="$NODE_ID" -f body="$MESSAGE" || echo "  Failed to post comment"
+                fi
+                ;;
+              "warn")
+                # Issue a formal warning - posts message, locks discussion, logs warning
+                DISC_TITLE=$(jq -r --argjson num "$ITEM_NUM" '.[] | select(.item_number == $num) | .title' /tmp/clio-workspace/NODE_ID_LOOKUP.json)
+                DISC_NUM=$(jq -r --argjson num "$ITEM_NUM" '.[] | select(.item_number == $num) | .discussion_number' /tmp/clio-workspace/NODE_ID_LOOKUP.json)
+                AUTHOR=$(echo "$decision" | jq -r '.warned_user // "unknown"')
+                
+                # Use the message from CLIO if provided, otherwise use default
+                if [ -z "$MESSAGE" ]; then
+                  MESSAGE="[WARN] **Community Guidelines Warning**\n\nYour message has been flagged for violating our community guidelines.\n\nReason: ${REASON:-Policy violation}\n\nThis is a formal warning. Repeated violations may result in being blocked from participating in SyntheticAutonomicMind discussions.\n\nIf you believe this warning was issued in error, please contact a maintainer.\n\n- CLIO"
+                  MESSAGE=$(printf "$MESSAGE")
+                fi
+                
+                echo "  Issuing warning to $NODE_ID..."
+                gh api graphql -f query='
+                  mutation($discussionId: ID!, $body: String!) {
+                    addDiscussionComment(input: {discussionId: $discussionId, body: $body}) {
+                      comment { id }
+                    }
+                  }
+                ' -f discussionId="$NODE_ID" -f body="$MESSAGE" || echo "  Failed to post warning"
+                
+                # Lock the discussion (note: discussions don't support lockReason like issues)
+                echo "  Locking discussion..."
+                gh api graphql -f query='
+                  mutation($id: ID!) {
+                    lockLockable(input: {lockableId: $id}) {
+                      lockedRecord { locked }
+                    }
+                  }
+                ' -f id="$NODE_ID" || echo "  Failed to lock"
+                
+                # Log warning to tracking file (will be committed later)
+                echo "  Logging warning for $AUTHOR..."
+                echo "{\"user\":\"$AUTHOR\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"reason\":\"$REASON\",\"discussion\":$DISC_NUM}" >> /tmp/clio-workspace/new_warnings.jsonl
+                ;;
+              "flag")
+                if [ -n "$NODE_ID" ]; then
+                  FLAG_MSG="**Automated Moderation Alert**
+
+          Classification: $(echo "$decision" | jq -r '.classification // "unknown"')
+          Severity: $(echo "$decision" | jq -r '.severity // "unknown"')
+          Reason: ${REASON:-No specific reason provided}
+
+          ---
+          *Flagged by CLIO batch moderation.*
+          @fewtarius"
+                  echo "  Flagging for review..."
+                  gh api graphql -f query='
+                    mutation($discussionId: ID!, $body: String!) {
+                      addDiscussionComment(input: {discussionId: $discussionId, body: $body}) {
+                        comment { id }
+                      }
+                    }
+                  ' -f discussionId="$NODE_ID" -f body="$FLAG_MSG" || echo "  Failed to flag"
+                fi
+                ;;
+              "minimize")
+                if [ -n "$NODE_ID" ] && [ "$ITEM_TYPE" = "comment" ]; then
+                  echo "  Minimizing comment..."
+                  gh api graphql -f query='
+                    mutation($id: ID!, $classifier: ReportedContentClassifiers!) {
+                      minimizeComment(input: {subjectId: $id, classifier: $classifier}) {
+                        minimizedComment { isMinimized }
+                      }
+                    }
+                  ' -f id="$NODE_ID" -f classifier="SPAM" || echo "  Failed to minimize"
+                fi
+                ;;
+              "lock")
+                if [ -n "$NODE_ID" ]; then
+                  echo "  Locking discussion..."
+                  gh api graphql -f query='
+                    mutation($id: ID!) {
+                      lockLockable(input: {lockableId: $id}) {
+                        lockedRecord { locked }
+                      }
+                    }
+                  ' -f id="$NODE_ID" || echo "  Failed to lock"
+                fi
+                ;;
+              "approve")
+                echo "  Approved - no action needed"
+                ;;
+              *)
+                echo "  Unknown action: $ACTION"
+                ;;
+            esac
+          done
+
+      - name: Process warnings and check for repeat offenders
+        if: steps.fetch.outputs.activity_count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if any new warnings were issued
+          if [ ! -f /tmp/clio-workspace/new_warnings.jsonl ]; then
+            echo "No new warnings issued this run."
+            exit 0
+          fi
+
+          echo "=== Processing new warnings ==="
+          cat /tmp/clio-workspace/new_warnings.jsonl
+
+          # Fetch existing warnings file from repo
+          mkdir -p /tmp/clio-workspace/.github/moderation
+          if gh api /repos/${{ github.repository }}/contents/.github/moderation/warnings.json --jq '.content' | base64 -d > /tmp/clio-workspace/.github/moderation/warnings.json 2>/dev/null; then
+            echo "Loaded existing warnings file"
+          else
+            echo '{"warnings":[],"blocks":[],"last_updated":"2026-01-01T00:00:00Z"}' > /tmp/clio-workspace/.github/moderation/warnings.json
+            echo "Created new warnings file"
+          fi
+
+          # Add new warnings to the file
+          CUTOFF_DATE=$(date -u -d "90 days ago" '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || date -u -v-90d '+%Y-%m-%dT%H:%M:%SZ')
+          
+          while IFS= read -r warning; do
+            USER=$(echo "$warning" | jq -r '.user')
+            TIMESTAMP=$(echo "$warning" | jq -r '.timestamp')
+            REASON=$(echo "$warning" | jq -r '.reason')
+            DISC=$(echo "$warning" | jq -r '.discussion')
+            
+            # Add to warnings array
+            jq --arg user "$USER" --arg ts "$TIMESTAMP" --arg reason "$REASON" --argjson disc "$DISC" \
+              '.warnings += [{"user": $user, "timestamp": $ts, "reason": $reason, "discussion": $disc}] | .last_updated = $ts' \
+              /tmp/clio-workspace/.github/moderation/warnings.json > /tmp/clio-workspace/.github/moderation/warnings_new.json
+            mv /tmp/clio-workspace/.github/moderation/warnings_new.json /tmp/clio-workspace/.github/moderation/warnings.json
+            
+            # Count recent warnings for this user (last 90 days)
+            WARNING_COUNT=$(jq --arg user "$USER" --arg cutoff "$CUTOFF_DATE" \
+              '[.warnings[] | select(.user == $user and .timestamp >= $cutoff)] | length' \
+              /tmp/clio-workspace/.github/moderation/warnings.json)
+            
+            echo "User $USER has $WARNING_COUNT warnings in last 90 days"
+            
+            # If 2+ warnings, notify maintainer for manual block (GITHUB_TOKEN lacks admin:org)
+            if [ "$WARNING_COUNT" -ge 2 ]; then
+              echo "*** USER $USER IS A REPEAT OFFENDER ($WARNING_COUNT warnings) - notifying maintainer ***"
+              
+              # Get the discussion node_id from the discussion number
+              DISC_NODE_ID=$(gh api graphql -f query='
+                query($owner: String!, $repo: String!, $num: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    discussion(number: $num) { id }
+                  }
+                }
+              ' -f owner="${{ github.repository_owner }}" -f repo="${{ github.event.repository.name }}" -F num="$DISC" --jq '.data.repository.discussion.id' 2>/dev/null || echo "")
+              
+              if [ -n "$DISC_NODE_ID" ]; then
+                # Build message with printf to avoid YAML special char issues
+                BLOCK_MSG=$(printf '%s\n\n%s\n\n%s\n%s\n\n%s' \
+                  "⚠️ **REPEAT OFFENDER - MANUAL BLOCK REQUIRED**" \
+                  "@fewtarius - User @${USER} has ${WARNING_COUNT} warnings in the last 90 days." \
+                  "**Action needed:** Block this user at:" \
+                  "https://github.com/orgs/${{ github.repository_owner }}/people?query=${USER}" \
+                  "- CLIO")
+                
+                gh api graphql -f query='
+                  mutation($discussionId: ID!, $body: String!) {
+                    addDiscussionComment(input: {discussionId: $discussionId, body: $body}) {
+                      comment { id }
+                    }
+                  }
+                ' -f discussionId="$DISC_NODE_ID" -f body="$BLOCK_MSG" || echo "Failed to post block notification"
+                
+                echo "Posted block notification to discussion #$DISC"
+              fi
+              
+              # Log the pending block
+              jq --arg user "$USER" --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --argjson count "$WARNING_COUNT" \
+                '.pending_blocks += [{"user": $user, "timestamp": $ts, "warning_count": $count}]' \
+                /tmp/clio-workspace/.github/moderation/warnings.json > /tmp/clio-workspace/.github/moderation/warnings_new.json
+              mv /tmp/clio-workspace/.github/moderation/warnings_new.json /tmp/clio-workspace/.github/moderation/warnings.json
+            fi
+          done < /tmp/clio-workspace/new_warnings.jsonl
+
+          # Update the warnings file in the repo
+          echo "Updating warnings file in repository..."
+          CONTENT=$(base64 -w0 /tmp/clio-workspace/.github/moderation/warnings.json 2>/dev/null || base64 /tmp/clio-workspace/.github/moderation/warnings.json)
+          SHA=$(gh api /repos/${{ github.repository }}/contents/.github/moderation/warnings.json --jq '.sha' 2>/dev/null || echo "")
+          
+          if [ -n "$SHA" ]; then
+            gh api --method PUT /repos/${{ github.repository }}/contents/.github/moderation/warnings.json \
+              -f message="chore(moderation): update warnings log" \
+              -f content="$CONTENT" \
+              -f sha="$SHA" || echo "Failed to update warnings file"
+          else
+            gh api --method PUT /repos/${{ github.repository }}/contents/.github/moderation/warnings.json \
+              -f message="chore(moderation): initialize warnings log" \
+              -f content="$CONTENT" || echo "Failed to create warnings file"
+          fi
+
+      - name: Generate summary
+        if: always()
+        run: |
+          {
+            echo "## Discussion Moderation Report"
+            echo ""
+            echo "**Run time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            echo "**Lookback:** ${{ env.LOOKBACK_MINUTES }} minutes"
+            echo "**Items found:** ${{ steps.fetch.outputs.activity_count || '0' }}"
+            echo ""
+
+            if [ -f /tmp/clio-workspace/moderation-results.json ] && jq . /tmp/clio-workspace/moderation-results.json > /dev/null 2>&1; then
+              echo "### Decisions"
+              echo ""
+              echo "| Item | Type | Action | Reason |"
+              echo "|------|------|--------|--------|"
+              jq -r '.decisions[]? | "| \(.item // "?") | \(.type // "?") | \(.action // "?") | \(.reason // "-") |"' /tmp/clio-workspace/moderation-results.json || echo "| - | - | - | No results |"
+            else
+              echo "No moderation results available."
+            fi
+          } >> $GITHUB_STEP_SUMMARY
