@@ -2,8 +2,8 @@ name: Discussion Moderation with CLIO
 
 on:
   schedule:
-    # Run every 15 minutes
-    - cron: '*/15 * * * *'
+    # Run hourly at the top of each hour
+    - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
       lookback_minutes:

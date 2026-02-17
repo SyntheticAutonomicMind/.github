@@ -166,9 +166,9 @@ jobs:
             echo "json_valid=true" >> $GITHUB_OUTPUT
           else
             echo "json_valid=false" >> $GITHUB_OUTPUT
-            TOTAL=$(jq -r '.data.organization.repositoryDiscussions.totalCount // 0' /tmp/clio-workspace/DISCUSSIONS_DATA.json)
-            UNANSWERED=$(jq -r '[.data.organization.repositoryDiscussions.nodes[] | select(.isAnswered == false and .category.name == "Q&A")] | length' /tmp/clio-workspace/DISCUSSIONS_DATA.json)
-            NO_RESPONSE=$(jq -r '[.data.organization.repositoryDiscussions.nodes[] | select(.comments.totalCount == 0)] | length' /tmp/clio-workspace/DISCUSSIONS_DATA.json)
+            TOTAL=$(jq -r '.data.repository.discussions.totalCount // 0' /tmp/clio-workspace/DISCUSSIONS_DATA.json)
+            UNANSWERED=$(jq -r '[.data.repository.discussions.nodes[] | select(.isAnswered == false and .category.name == "Q&A")] | length' /tmp/clio-workspace/DISCUSSIONS_DATA.json)
+            NO_RESPONSE=$(jq -r '[.data.repository.discussions.nodes[] | select(.comments.totalCount == 0)] | length' /tmp/clio-workspace/DISCUSSIONS_DATA.json)
 
             echo "{\"total_open\":$TOTAL,\"unanswered_qa\":$UNANSWERED,\"no_responses\":$NO_RESPONSE,\"health_score\":\"unknown\",\"needs_attention\":$((UNANSWERED + NO_RESPONSE)),\"summary\":\"Automated analysis complete. Manual review recommended.\"}" > /tmp/clio-workspace/analysis.json
             echo "Using fallback JSON"
