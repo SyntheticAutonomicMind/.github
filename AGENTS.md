@@ -258,7 +258,6 @@ git push
 
 - **Main Website:** https://www.syntheticautonomicmind.org
 - **GitHub Issues:** https://github.com/SyntheticAutonomicMind/SAM/issues
-- **Community:** https://reddit.com/r/PopularAI
 - **Support:** https://patreon.com/fewtarius
 
 ## License
