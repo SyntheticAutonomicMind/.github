@@ -41,8 +41,8 @@ In July 2025, I set out to build the AI assistant my wife actually wanted. One t
 
 Say "Hey SAM" to go hands-free. Import documents and ask questions about them. Generate images locally with Stable Diffusion. Train custom models on your own data with LoRA. Access SAM from your iPad or phone with SAM-Web. Choose from local models (MLX, llama.cpp) or cloud providers - your data never leaves your Mac unless you choose otherwise.
 
-**Repository:** [github.com/SyntheticAutonomicMind/SAM](https://github.com/SyntheticAutonomicMind/SAM)
-**Website:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)
+**Repository:** [github.com/SyntheticAutonomicMind/SAM](https://github.com/SyntheticAutonomicMind/SAM)  
+**Website:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)  
 **Download:** [Latest Release](https://github.com/SyntheticAutonomicMind/SAM/releases) or `brew install --cask sam`
 
 ---
@@ -67,7 +67,7 @@ No memory leaks. No degradation. No restart needed.
 
 Runs on everything from a ClockworkPi uConsole R01 to an M4 Mac. Works over SSH. Deploys via Docker. Supports multi-agent coordination, remote execution across your fleet, MCP integration, and long-term memory that persists across sessions.
 
-**Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)
+**Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)  
 **Install:** `brew install clio` or [see installation docs](https://github.com/SyntheticAutonomicMind/CLIO#quick-start)
 
 ---
@@ -82,7 +82,7 @@ Text-to-image with any Stable Diffusion model (SD 1.5, SDXL, FLUX). Browse and d
 
 Works on NVIDIA (CUDA), AMD (ROCm - including Steam Deck), and Apple Silicon. Integrates with SAM as an image provider, or use it standalone through the web interface or API.
 
-**Repository:** [github.com/SyntheticAutonomicMind/ALICE](https://github.com/SyntheticAutonomicMind/ALICE)
+**Repository:** [github.com/SyntheticAutonomicMind/ALICE](https://github.com/SyntheticAutonomicMind/ALICE)  
 **Install:** [Getting Started](https://github.com/SyntheticAutonomicMind/ALICE#quick-start)
 
 ---
