@@ -28,8 +28,8 @@ SAM, CLIO, and ALICE work together or independently - whatever fits your workflo
 **How they connect:**
 - SAM can offload image generation to ALICE on dedicated hardware
 - CLIO can use SAM as an AI provider
-- All three support the same cloud providers (OpenAI, Anthropic, GitHub Copilot, DeepSeek, and more)
-- All three run local models for complete offline operation
+- They support the same cloud providers (OpenAI, Anthropic, GitHub Copilot, DeepSeek, and more)
+- They work with local models for complete offline operation
 
 ---
 
@@ -89,7 +89,7 @@ Works on NVIDIA (CUDA), AMD (ROCm - including Steam Deck), and Apple Silicon. In
 
 ## How These Tools Get Built
 
-All three projects are developed using The Unbroken Method - a framework for human-AI pair programming that I developed alongside the tools themselves. The method prioritizes continuous context, complete ownership, investigation before action, and structured handoffs.
+These projects are developed using The Unbroken Method - a framework for human-AI pair programming that I developed alongside the tools themselves. The method prioritizes continuous context, complete ownership, investigation before action, and structured handoffs.
 
 The practical result: CLIO builds CLIO. CLIO builds SAM. CLIO builds ALICE. One developer, working with AI agents, shipping production software across three languages (Swift, Perl, Python) and three platforms.
 
@@ -112,7 +112,7 @@ Synthetic Autonomic Mind is a small open source project with no marketing budget
 
 - **Report bugs and request features:** [SAM Issues](https://github.com/SyntheticAutonomicMind/SAM/issues) · [CLIO Issues](https://github.com/SyntheticAutonomicMind/CLIO/issues) · [ALICE Issues](https://github.com/SyntheticAutonomicMind/ALICE/issues)
 - **Join the conversation:** [GitHub Discussions](https://github.com/orgs/SyntheticAutonomicMind/discussions)
-- **Contribute code:** All three projects welcome pull requests
+- **Contribute code:** All projects welcome pull requests
 - **Support development:** [Patreon](https://www.patreon.com/fewtarius) - helps fund software licenses, developer accounts, and infrastructure
 
 ---

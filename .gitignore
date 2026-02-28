@@ -3,6 +3,7 @@ ai-assisted/202*
 scratch/
 .clio/logs/
 .clio/sessions/
+.clio/snapshots/
 .clio/memory/
 .clio/*.json
 
