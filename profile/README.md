@@ -1,6 +1,6 @@
 # Synthetic Autonomic Mind
 
-**Privacy-first AI tools. Free, open source, and built to work the way you do.**
+**Privacy-first AI tools for everyone. Free, open source, and built to work the way you do.**
 
 ---
 
@@ -16,17 +16,17 @@ Everything here is 100% free and open source. No telemetry. No accounts required
 
 ## The Ecosystem
 
-SAM, CLIO, and ALICE work together or independently - whatever fits your workflow.
+SAM, CLIO, and ALICE work together or independently - each one doing what it does best.
 
 | | **SAM** | **CLIO** | **ALICE** |
 |---|---|---|---|
 | **What** | Native macOS AI assistant | Terminal AI code assistant | Stable Diffusion image server |
-| **For** | Everyday Mac users, developers, anyone | Developers, sysadmins, terminal users | Creators, developers, hobbyists |
+| **For** | Everyday Mac users, anyone | Developers, sysadmins, terminal users | Creators, developers, hobbyists |
 | **Where** | macOS desktop + iPad/iPhone via SAM-Web | Any terminal (macOS, Linux, SSH, Docker) | macOS, Linux (NVIDIA, AMD, Apple Silicon) |
-| **Standout** | Voice control, semantic memory, document analysis, LoRA training | 50 MB RAM, runs on a ClockworkPi, multi-agent coordination | Runs on a Steam Deck, OpenAI-compatible API, private gallery |
+| **Standout** | Voice control, semantic memory, document analysis, image gen via ALICE | ~50 MB RAM, runs on a ClockworkPi, multi-agent coordination | SAM's image engine, OpenAI-compatible API, private gallery |
 
 **How they connect:**
-- SAM can offload image generation to ALICE on dedicated hardware
+- SAM uses ALICE as its image engine - describe what you want, SAM asks ALICE, ALICE generates it locally
 - CLIO can use SAM as an AI provider
 - They support the same cloud providers (OpenAI, Anthropic, GitHub Copilot, DeepSeek, and more)
 - They work with local models for complete offline operation
@@ -35,11 +35,13 @@ SAM, CLIO, and ALICE work together or independently - whatever fits your workflo
 
 ## SAM - Built for My Wife
 
-**A native macOS AI assistant that remembers, creates, and gets work done.**
+**A native macOS AI assistant that remembers, gets work done, and keeps your data on your Mac.**
 
-In July 2025, I set out to build the AI assistant my wife actually wanted. One that adapted to her workflow, not the other way around. SAM grew from that into a full-featured macOS app that anyone can use.
+In July 2025, I set out to build the AI assistant my wife actually wanted. One that adapted to *her* workflow instead of forcing her to adapt. SAM grew from that into a native macOS assistant that anyone can use.
 
-Say "Hey SAM" to go hands-free. Import documents and ask questions about them. Generate images locally with Stable Diffusion. Train custom models on your own data with LoRA. Access SAM from your iPad or phone with SAM-Web. Choose from local models (MLX, llama.cpp) or cloud providers - your data never leaves your Mac unless you choose otherwise.
+SAM is built for everyday use by real people, not just developers. Say "Hey SAM" to go hands-free. Import documents and ask questions about them. Generate images by connecting to an [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) server - on your Mac, your network, or any machine you control. Run real math calculations without trusting AI to get the arithmetic right. Access SAM from your iPad or phone with SAM-Web. Choose from local models (MLX, llama.cpp) or cloud providers - your data never leaves your Mac unless you choose otherwise.
+
+Image generation requires a running ALICE instance. The [ALICE quick install](https://github.com/SyntheticAutonomicMind/ALICE#quick-install) takes a few minutes and runs entirely on your machine.
 
 **Repository:** [github.com/SyntheticAutonomicMind/SAM](https://github.com/SyntheticAutonomicMind/SAM)  
 **Website:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)  
@@ -49,21 +51,13 @@ Say "Hey SAM" to go hands-free. Import documents and ask questions about them. G
 
 ## CLIO - Built for Myself
 
-**An AI code assistant that lives in your terminal. Portable, privacy-first, and designed for real work.**
+**An AI code assistant that lives in your terminal. Portable, privacy-first, and built for real work.**
 
-I work in the terminal. I wanted an AI assistant that felt native there - not a browser tab, not an IDE plugin, not something that needed Node.js and 500 MB of dependencies. CLIO is pure Perl, runs on standard Unix tools, and uses about 50 MB of RAM.
+I work in the terminal. I wanted an AI assistant that felt native there - not a browser tab, not an IDE plugin, not something that needed Node.js and 500 MB of dependencies. CLIO is pure Perl, runs on standard Unix tools, and stays lightweight even through hours of heavy development work.
 
 Since version 20260119.1, CLIO has been building itself. All development on SAM, CLIO, and ALICE is now done through pair programming with AI agents using CLIO. It reads, writes, tests, commits, and iterates - give it a task and it works through it end-to-end.
 
-Real numbers from real sessions:
-
-```
-29h 43m uptime  |  10.7 MB RSS  |  502 tool calls
-27h 27m uptime  |  10.8 MB RSS  |  58 tool calls
- 3h 5m  uptime  |  50.6 MB RSS  |  507 tool calls
-```
-
-No memory leaks. No degradation. No restart needed.
+No memory leaks. No degradation. Runs for hours without restart needed.
 
 Runs on everything from a ClockworkPi uConsole R01 to an M4 Mac. Works over SSH. Deploys via Docker. Supports multi-agent coordination, remote execution across your fleet, MCP integration, and long-term memory that persists across sessions.
 
@@ -74,11 +68,13 @@ Runs on everything from a ClockworkPi uConsole R01 to an M4 Mac. Works over SSH.
 
 ## ALICE - Built for Fun
 
-**A local Stable Diffusion service with a web interface, private gallery, and OpenAI-compatible API.**
+**SAM's image engine - and a standalone local Stable Diffusion service for anyone who wants private, unlimited image generation.**
 
-I wanted to generate images on my own hardware without paying per-image or uploading prompts to someone else's server. ALICE started as a weekend project and turned into a full image generation platform.
+I wanted to generate images on my own hardware without paying per-image or uploading prompts to someone else's server. ALICE started as a weekend project and turned into a full image generation platform - and the dedicated image engine for SAM.
 
-Text-to-image with any Stable Diffusion model (SD 1.5, SDXL, FLUX). Browse and download models from CivitAI and HuggingFace. Private gallery with optional time-limited sharing. Real-time GPU dashboard. Admin panel with user management. Runs as a daemon on Linux or macOS.
+When SAM generates an image, ALICE does the work: SAM sends your description, ALICE generates it on your GPU, SAM displays the result. Everything stays on your hardware. No cloud uploads, no per-image cost, no subscription.
+
+Text-to-image with any Stable Diffusion model (SD 1.5, SDXL, FLUX). Browse and download models from CivitAI and HuggingFace. Private gallery with optional time-limited sharing. Real-time GPU dashboard. Runs as a background service on macOS (LaunchAgent, no sudo required) or Linux (systemd).
 
 Works on NVIDIA (CUDA), AMD (ROCm - including Steam Deck), and Apple Silicon. Integrates with SAM as an image provider, or use it standalone through the web interface or API.
 

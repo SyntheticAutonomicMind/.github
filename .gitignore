@@ -1,12 +1,6 @@
 # CLIO AI Assistant
 ai-assisted/202*
 scratch/
-.clio/logs/
-.clio/sessions/
-.clio/snapshots/
-.clio/memory/
-.clio/*.json
-
 # Editor files
 *.swp
 *.bak
@@ -17,4 +11,8 @@ scratch/
 .DS_Store
 Thumbs.db
 
+!.clio/instructions.md
+
+# CLIO (managed automatically)
+.clio/*
 !.clio/instructions.md
