@@ -10,6 +10,8 @@ I built **SAM** for my wife - she wanted a powerful AI assistant that adapted to
 
 Together, they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image generation. MIRA brings CLIO to every platform with a native graphical terminal. They share providers, respect your privacy, and work the way you do.
 
+If this sounds familiar, it's because I've been doing this for a while. I've been shipping open source software since the early 2000s - Linux distributions, system tools, gaming platforms - and today I lead Synthetic Autonomic Mind, building AI tools that are open source so everyone can benefit.
+
 Everything here is 100% free and open source. No telemetry. No accounts required. Your data stays on your machine.
 
 ---
