@@ -8,7 +8,7 @@
 
 I built **SAM** for my wife - she wanted a powerful AI assistant that adapted to her workflow instead of forcing her to adapt. I built **CLIO** for myself - I live in the terminal and couldn't find an AI tool that felt native there. I built **ALICE** for fun - I wanted to generate images on my own hardware without cloud services taking a cut.
 
-Together, they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image generation. They share providers, respect your privacy, and work the way you do.
+Together, they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image generation. MIRA brings CLIO to every platform with a native graphical terminal. They share providers, respect your privacy, and work the way you do.
 
 Everything here is 100% free and open source. No telemetry. No accounts required. Your data stays on your machine.
 
@@ -61,7 +61,10 @@ No memory leaks. No degradation. Runs for hours without restart needed.
 
 Runs on everything from a ClockworkPi uConsole R01 to an M4 Mac. Works over SSH. Deploys via Docker. Supports multi-agent coordination, remote execution across your fleet, MCP integration, and long-term memory that persists across sessions.
 
-**Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)  
+
+CLIO is also available on Windows, macOS, and Linux through **[MIRA](https://github.com/SyntheticAutonomicMind/MIRA)** - a native graphical terminal that bundles CLIO with everything it needs. No dependencies to install, just download and run.
+
+**Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)
 **Install:** `brew install clio` or [see installation docs](https://github.com/SyntheticAutonomicMind/CLIO#quick-start)
 
 ---
@@ -126,7 +129,8 @@ All projects are **100% free & open source** under GPL v3.0 (code) and CC BY-NC 
 | Tool | Install | Platforms |
 |------|---------|-----------|
 | **SAM** | [Download](https://github.com/SyntheticAutonomicMind/SAM/releases) or `brew install --cask sam` | macOS 14.0+ |
-| **CLIO** | `brew install clio` or [Docker](https://github.com/SyntheticAutonomicMind/CLIO#quick-start) | macOS, Linux |
+| **CLIO** | `brew install clio` or [Docker](https://github.com/SyntheticAutonomicMind/CLIO#quick-start) | macOS, Linux, Windows (via MIRA) |
+| **MIRA** | [Download](https://github.com/SyntheticAutonomicMind/MIRA/releases) | macOS, Linux, Windows |
 | **ALICE** | [Setup Guide](https://github.com/SyntheticAutonomicMind/ALICE#quick-start) | macOS, Linux |
 
 **All Repositories:**
@@ -134,6 +138,8 @@ All projects are **100% free & open source** under GPL v3.0 (code) and CC BY-NC 
 - [SAM-Web](https://github.com/SyntheticAutonomicMind/SAM-web) - Web interface for iPad/iPhone/browser
 - [CLIO](https://github.com/SyntheticAutonomicMind/CLIO) - Terminal AI assistant
 - [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) - Image generation backend
+- [MIRA](https://github.com/SyntheticAutonomicMind/MIRA) - Native graphical terminal for CLIO
+- [CLIO-helper](https://github.com/SyntheticAutonomicMind/CLIO-helper) - GitHub automation daemon for CLIO
 - [Website](https://github.com/SyntheticAutonomicMind/website) - Documentation and guides
 
 **Website:** [www.syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)
