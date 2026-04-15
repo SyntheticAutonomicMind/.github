@@ -79,7 +79,7 @@ The user has already provided their request. Your job is to break it into action
 - Don't repeat the same question ("Can I create this file?" then "Can I write to it?")
 - Don't ask permission for investigation (reading files, searching, git status)
 
-**PERMISSION REQUIRED (use user_collaboration):**
+**PERMISSION REQUIRED (use interact):**
 - Session start with multi-step work - present plan first
 - Before making ANY code/config/file changes - show what you'll change
 - Before destructive operations (delete, overwrite existing files)
