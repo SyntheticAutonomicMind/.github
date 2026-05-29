@@ -1,127 +1,64 @@
 # Synthetic Autonomic Mind
 
-**Privacy-first AI tools for everyone. Free, open source, and built to work the way you do.**
+**Free, open source AI tools that do things, not just chat.**
+
+I built SAM for my wife. She wanted an AI assistant that could work with her documents, research purchases, generate images, and remember what they'd talked about. Nothing fit, so I built it.
+
+I built CLIO for myself. I spend more time in terminal sessions than I do using GUIs, and I wanted a terminal-first AI development tool that worked the way I work. It didn't really exist, so I built it.
+
+I built ALICE for fun. I wanted to generate images on my own hardware without paying per image or uploading prompts to someone else's server.
+
+Together they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image generation. They share providers, keep your data local, and adapt to how you work.
 
 ---
 
-## The Story
+## SAM - Native macOS AI Assistant
 
-I built **SAM** for my wife - she wanted a powerful AI assistant that adapted to her workflow instead of forcing her to adapt. I built **CLIO** for myself - I live in the terminal and couldn't find an AI tool that felt native there. I built **ALICE** for fun - I wanted to generate images on my own hardware without cloud services taking a cut.
+A native SwiftUI app for people who aren't developers. Say "Hey SAM" to go hands-free. Upload a PDF and ask questions about it. Research a purchase across Amazon, Walmart, and eBay in one conversation. Generate images by connecting to ALICE. All without touching a command line.
 
-Together, they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image generation. They share providers, respect your privacy, and work the way you do.
+**What you can do:**
+- **Talk to your documents** - Upload PDFs, Word docs, Excel files. SAM indexes them locally and lets you ask questions about the content. Your documents stay on your Mac.
+- **Research from real sources** - Google, Bing, Amazon, Yelp, TripAdvisor. SAM fetches live data and cites where it found the information.
+- **Generate images** - Connect to an ALICE server on your network for image generation.
+- **Go hands-free** - "Hey SAM" wake word, speech recognition, text-to-speech. Works offline with local models.
+- **Remember across conversations** - Create Shared Topics to connect related conversations. Search your history by meaning, not just keywords.
+- **Run completely offline** - MLX and llama.cpp support. Your conversations never leave your Mac unless you choose a cloud provider.
 
-If this sounds familiar, it's because I've been doing this for a while. I've been shipping open source software since the early 2000s - Linux distributions, system tools, gaming platforms - and today I lead Synthetic Autonomic Mind, building AI tools that are open source so everyone can benefit.
-
-Everything here is 100% free and open source. No telemetry. No accounts required. Your data stays on your machine.
-
----
-
-## The Ecosystem
-
-SAM, CLIO, and ALICE work together or independently - each one doing what it does best.
-
-| | **SAM** | **CLIO** | **ALICE** |
-|---|---|---|---|
-| **What** | Native macOS AI assistant | Terminal AI code assistant | Stable Diffusion image server |
-| **For** | Everyday Mac users, anyone | Developers, sysadmins, terminal users | Creators, developers, hobbyists |
-| **Where** | macOS desktop + iPad/iPhone via SAM-Web | Any terminal (macOS, Linux, SSH, Docker) | macOS, Linux (NVIDIA, AMD, Apple Silicon) |
-| **Standout** | Voice control, semantic memory, document analysis, image gen via ALICE | ~50 MB RAM, runs on a ClockworkPi, multi-agent coordination | SAM's image engine, OpenAI-compatible API, private gallery |
-
-**How they connect:**
-- SAM uses ALICE as its image engine - describe what you want, SAM asks ALICE, ALICE generates it locally
-- CLIO can use SAM as an AI provider
-- They support the same cloud providers (OpenAI, Anthropic, GitHub Copilot, DeepSeek, and more)
-- They work with local models for complete offline operation
+**macOS 14.0+ (Apple Silicon).** [GitHub](https://github.com/SyntheticAutonomicMind/SAM)
 
 ---
 
-## SAM - Built for My Wife
+## CLIO - Terminal AI Coding Assistant
 
-**A native macOS AI assistant that remembers, gets work done, and keeps your data on your Mac.**
+A terminal-native AI tool that reads your code, edits files, runs commands, manages git, and works through tasks with you in the loop. Not a chat wrapper. Not an IDE plugin. A pair programmer that lives in your shell.
 
-In July 2025, I set out to build the AI assistant my wife actually wanted. One that adapted to *her* workflow instead of forcing her to adapt. SAM grew from that into a native macOS assistant that anyone can use.
+**What you can do:**
+- **Give it a task, it does the work** - CLIO investigates your codebase, proposes a plan, you approve, it implements. Edits files, runs tests, commits changes.
+- **Work from anywhere** - Local shells, SSH sessions, tmux, Docker, headless servers. Anywhere Perl runs.
+- **Zero dependencies** - Pure Perl with standard core modules. No CPAN, no npm, no pip. Install and run.
+- **Pick up where you left off** - Persistent sessions with full history. Long-term memory carries across projects.
+- **Coordinate parallel agents** - Spawn sub-agents with file locks, git locks, and rate limiting.
+- **Run across your fleet** - SSH into any machine, deploy CLIO, run a task, get results.
+- **Stay private** - Secret redaction catches API keys and tokens before they reach the AI. Your code stays on your machine.
 
-SAM is built for everyday use by real people, not just developers. Say "Hey SAM" to go hands-free. Import documents and ask questions about them. Generate images by connecting to an [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) server - on your Mac, your network, or any machine you control. Run real math calculations without trusting AI to get the arithmetic right. Access SAM from your iPad or phone with SAM-Web. Choose from local models (MLX, llama.cpp) or cloud providers - your data never leaves your Mac unless you choose otherwise.
-
-Image generation requires a running ALICE instance. The [ALICE quick install](https://github.com/SyntheticAutonomicMind/ALICE#quick-install) takes a few minutes and runs entirely on your machine.
-
-**Repository:** [github.com/SyntheticAutonomicMind/SAM](https://github.com/SyntheticAutonomicMind/SAM)  
-**Website:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)  
-**Download:** [Latest Release](https://github.com/SyntheticAutonomicMind/SAM/releases) or `brew install --cask sam`
-
----
-
-## CLIO - Built for Myself
-
-**An AI code assistant that lives in your terminal. Portable, privacy-first, and built for real work.**
-
-I work in the terminal. I wanted an AI assistant that felt native there - not a browser tab, not an IDE plugin, not something that needed Node.js and 500 MB of dependencies. CLIO is pure Perl, runs on standard Unix tools, and stays lightweight even through hours of heavy development work.
-
-Since version 20260119.1, CLIO has been building itself. All development on SAM, CLIO, and ALICE is now done through pair programming with AI agents using CLIO. It reads, writes, tests, commits, and iterates - give it a task and it works through it end-to-end.
-
-No memory leaks. No degradation. Runs for hours without restart needed.
-
-Runs on everything from a ClockworkPi uConsole R01 to an M4 Mac. Works over SSH. Deploys via Docker. Supports multi-agent coordination, remote execution across your fleet, MCP integration, and long-term memory that persists across sessions.
-
-
-
-**Repository:** [github.com/SyntheticAutonomicMind/CLIO](https://github.com/SyntheticAutonomicMind/CLIO)
-**Install:** `brew install clio` or [see installation docs](https://github.com/SyntheticAutonomicMind/CLIO#quick-start)
+**macOS, Linux, Windows.** [GitHub](https://github.com/SyntheticAutonomicMind/CLIO)
 
 ---
 
-## ALICE - Built for Fun
+## ALICE - Local Image Generation
 
-**SAM's image engine - and a standalone local Stable Diffusion service for anyone who wants private, unlimited image generation.**
+SAM's image engine - and a standalone Stable Diffusion server for anyone who wants private image generation on their own hardware. Text-to-image with SD 1.5, SDXL, and FLUX. Browse and download models from CivitAI and HuggingFace. Private gallery with optional sharing. Runs on NVIDIA, AMD (including Steam Deck), and Apple Silicon.
 
-I wanted to generate images on my own hardware without paying per-image or uploading prompts to someone else's server. ALICE started as a weekend project and turned into a full image generation platform - and the dedicated image engine for SAM.
-
-When SAM generates an image, ALICE does the work: SAM sends your description, ALICE generates it on your GPU, SAM displays the result. Everything stays on your hardware. No cloud uploads, no per-image cost, no subscription.
-
-Text-to-image with any Stable Diffusion model (SD 1.5, SDXL, FLUX). Browse and download models from CivitAI and HuggingFace. Private gallery with optional time-limited sharing. Real-time GPU dashboard. Runs as a background service on macOS (LaunchAgent, no sudo required) or Linux (systemd).
-
-Works on NVIDIA (CUDA), AMD (ROCm - including Steam Deck), and Apple Silicon. Integrates with SAM as an image provider, or use it standalone through the web interface or API.
-
-**Repository:** [github.com/SyntheticAutonomicMind/ALICE](https://github.com/SyntheticAutonomicMind/ALICE)  
-**Install:** [Getting Started](https://github.com/SyntheticAutonomicMind/ALICE#quick-start)
+**Install:** [Getting Started](https://github.com/SyntheticAutonomicMind/ALICE#quick-start) | [GitHub](https://github.com/SyntheticAutonomicMind/ALICE)
 
 ---
 
-## How These Tools Get Built
+## What They Share
 
-These projects are developed using The Unbroken Method - a framework for human-AI pair programming that I developed alongside the tools themselves. The method prioritizes continuous context, complete ownership, investigation before action, and structured handoffs.
-
-The practical result: CLIO builds CLIO. CLIO builds SAM. CLIO builds ALICE. One developer, working with AI agents, shipping production software across three languages (Swift, Perl, Python) and three platforms.
-
-If you're interested in the methodology, there's a detailed write-up on the [website](https://www.syntheticautonomicmind.org/docs/shared/the-unbroken-method.html).
-
----
-
-## Help This Project Grow
-
-Synthetic Autonomic Mind is a small open source project with no marketing budget and no corporate backing. Word of mouth is how projects like this grow.
-
-**If you find these tools useful, the most valuable thing you can do is tell someone.**
-
-- Write a blog post or tweet about your experience
-- Mention it to a colleague who might benefit
-- Star the repos on GitHub - it helps with discoverability
-- Share in communities where these tools would be relevant
-
-**Other ways to help:**
-
-- **Report bugs and request features:** [SAM Issues](https://github.com/SyntheticAutonomicMind/SAM/issues) · [CLIO Issues](https://github.com/SyntheticAutonomicMind/CLIO/issues) · [ALICE Issues](https://github.com/SyntheticAutonomicMind/ALICE/issues)
-- **Join the conversation:** [GitHub Discussions](https://github.com/orgs/SyntheticAutonomicMind/discussions)
-- **Contribute code:** All projects welcome pull requests
-- **Support development:** [Patreon](https://www.patreon.com/fewtarius) - helps fund software licenses, developer accounts, and infrastructure
-
----
-
-## Our Philosophy
-
-We believe AI tools should respect your privacy, be transparent about what they do, adapt to your workflow, and be accessible to everyone - not just developers. These aren't aspirational goals. They're how the software is built today.
-
-All projects are **100% free & open source** under GPL v3.0 (code) and CC BY-NC 4.0 (documentation).
+- **Local-first** - SAM defaults to local models. CLIO sends only minimum context to AI providers. ALICE runs on your hardware. Your data stays on your machine.
+- **Tool-powered** - They don't just generate text. They use real tools - files, git, terminal, web, memory - to accomplish tasks.
+- **Free and open source** - GPL-3.0. No subscriptions, no tiers, no paywalls. Community-funded through [Patreon](https://www.patreon.com/fewtarius).
+- **Multi-provider** - OpenAI, Anthropic, GitHub Copilot, Google Gemini, DeepSeek, MiniMax, OpenRouter, or local models. Switch whenever you want.
 
 ---
 
@@ -129,23 +66,14 @@ All projects are **100% free & open source** under GPL v3.0 (code) and CC BY-NC 
 
 | Tool | Install | Platforms |
 |------|---------|-----------|
-| **SAM** | [Download](https://github.com/SyntheticAutonomicMind/SAM/releases) or `brew install --cask sam` | macOS 14.0+ |
-| **CLIO** | `brew install clio` or [Docker](https://github.com/SyntheticAutonomicMind/CLIO#quick-start) | macOS, Linux, Windows |
+| **SAM** | `brew install --cask sam` | macOS 14.0+ (Apple Silicon) |
+| **CLIO** | `brew install clio` | macOS, Linux, Windows |
 | **ALICE** | [Setup Guide](https://github.com/SyntheticAutonomicMind/ALICE#quick-start) | macOS, Linux |
 
-**All Repositories:**
-- [SAM](https://github.com/SyntheticAutonomicMind/SAM) - Native macOS AI assistant
-- [SAM-Web](https://github.com/SyntheticAutonomicMind/SAM-web) - Web interface for iPad/iPhone/browser
-- [CLIO](https://github.com/SyntheticAutonomicMind/CLIO) - Terminal AI assistant
-- [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) - Image generation backend
-- [CLIO-helper](https://github.com/SyntheticAutonomicMind/CLIO-helper) - GitHub automation daemon for CLIO
-- [Website](https://github.com/SyntheticAutonomicMind/website) - Documentation and guides
+**All repositories:** [SAM](https://github.com/SyntheticAutonomicMind/SAM) · [CLIO](https://github.com/SyntheticAutonomicMind/CLIO) · [ALICE](https://github.com/SyntheticAutonomicMind/ALICE) · [SAM-Web](https://github.com/SyntheticAutonomicMind/SAM-web) · [CLIO-helper](https://github.com/SyntheticAutonomicMind/CLIO-helper)
 
-**Website:** [www.syntheticautonomicmind.org](https://www.syntheticautonomicmind.org)
+**Website:** [syntheticautonomicmind.org](https://www.syntheticautonomicmind.org) · **Support development:** [Patreon](https://www.patreon.com/fewtarius)
 
 ---
 
-## License
-
-- **Code:** [GPL v3.0](https://www.gnu.org/licenses/gpl-3.0)
-- **Documentation:** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
+*AI tools should respect your privacy, be transparent about what they do, and be accessible to everyone. GPL-3.0 for code, CC BY-NC 4.0 for docs.*
