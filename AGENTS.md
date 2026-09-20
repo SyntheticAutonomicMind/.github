@@ -22,7 +22,7 @@ This file provides project context for AI coding assistants (CLIO, Cursor, Aider
 ### Related Projects (for reference)
 - **SAM** (macOS AI Assistant) - https://github.com/SyntheticAutonomicMind/SAM
 - **CLIO** (Terminal AI Assistant) - https://github.com/SyntheticAutonomicMind/CLIO
-- **ALICE** (Image Generation Backend) - https://github.com/SyntheticAutonomicMind/ALICE
+- **ALICE** (Image & Audio Generation Backend) - https://github.com/SyntheticAutonomicMind/ALICE
 - **SAM-website** (Documentation site) - https://www.syntheticautonomicmind.org
 
 ## Project Philosophy

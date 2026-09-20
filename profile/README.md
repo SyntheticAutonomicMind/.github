@@ -8,7 +8,7 @@ I built CLIO for myself. I spend more time in terminal sessions than I do using 
 
 I built ALICE for fun. I wanted to generate images on my own hardware without paying per image or uploading prompts to someone else's server.
 
-Together they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image generation. They share providers, keep your data local, and adapt to how you work.
+Together they became an ecosystem. SAM handles the desktop. CLIO handles the terminal. ALICE handles image and audio generation. They share providers, keep your data local, and adapt to how you work.
 
 ---
 
@@ -19,7 +19,7 @@ A native SwiftUI app for people who aren't developers. Say "Hey SAM" to go hands
 **What you can do:**
 - **Talk to your documents** - Upload PDFs, Word docs, Excel files. SAM indexes them locally and lets you ask questions about the content. Your documents stay on your Mac.
 - **Research from real sources** - Google, Bing, Amazon, Yelp, TripAdvisor. SAM fetches live data and cites where it found the information.
-- **Generate images** - Connect to an ALICE server on your network for image generation.
+- **Generate images and music** - Connect to an ALICE server on your network for image and audio generation.
 - **Go hands-free** - "Hey SAM" wake word, speech recognition, text-to-speech. Works offline with local models.
 - **Remember across conversations** - Create Shared Topics to connect related conversations. Search your history by meaning, not just keywords.
 - **Run completely offline** - MLX and llama.cpp support. Your conversations never leave your Mac unless you choose a cloud provider.
@@ -45,9 +45,9 @@ A terminal-native AI tool that reads your code, edits files, runs commands, mana
 
 ---
 
-## ALICE - Local Image Generation
+## ALICE - Local Image & Audio Generation
 
-SAM's image engine - and a standalone Stable Diffusion server for anyone who wants private image generation on their own hardware. Text-to-image with SD 1.5, SDXL, and FLUX. Browse and download models from CivitAI and HuggingFace. Private gallery with optional sharing. Runs on NVIDIA, AMD (including Steam Deck), and Apple Silicon.
+SAM's media generation engine - and a standalone Stable Diffusion and audio generation server for anyone who wants private image and music generation on their own hardware. Text-to-image with SD 1.5, SDXL, and FLUX. Stable Audio Open 1.0 and MiniMax Music 3 for text-to-audio generation. Browse and download models from CivitAI and HuggingFace. Private gallery with optional sharing. Runs on NVIDIA, AMD (including Steam Deck), and Apple Silicon.
 
 **Install:** [Getting Started](https://github.com/SyntheticAutonomicMind/ALICE#quick-start) | [GitHub](https://github.com/SyntheticAutonomicMind/ALICE)
 
